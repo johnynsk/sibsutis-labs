@@ -7,15 +7,18 @@
  */
 #include <stdio.h>
 #include <math.h>
-#define ITEMS_COUNT 5
+#include <cstdlib>
+#include <ctime>
+#define ITEMS_COUNT 100000
 
-float simpson (float* data, int a, int b)
+float simpson (float* data, float a, float b)
 {
     float sum = 0;
+    float h = (b - a) / ITEMS_COUNT;
 
-    sum += data[a] + data[b];
+    sum += data[0] + data[ITEMS_COUNT - 1];
 
-    for (int i = a + 1; i <= b - 1; i++ ) {
+    for (int i = 1; i <= ITEMS_COUNT - 2; i++ ) {
         if (i % 2 == 0) {
             sum += 2 * data[i];
         } else {
@@ -23,22 +26,23 @@ float simpson (float* data, int a, int b)
         }
     }
 
-    float h = 1; // (b - a) / (b - a)
-
     sum *= h / 3;
 
     return sum;
 }
 
-float trapezium (float* data, int a, int b)
+float trapezium (float* data, float a, float b)
 {
     float sum = 0;
+    float h = (b - a) / ITEMS_COUNT;
 
-    sum += (data[a] + data[b]) / 2;
+    sum += (data[0] + data[ITEMS_COUNT - 1]) / 2;
 
-    for (int i = a + 1; i <= b - 1; i++ ) {
+    for (int i = 1; i <= ITEMS_COUNT - 2; i++ ) {
         sum += data[i];
     }
+
+    sum *= h;
 
     return sum;
 }
@@ -59,14 +63,13 @@ float* calc (float* data)
     return result;
 }
 
-float* readItems()
+float* getItems(float a, float b)
 {
     static float items[ITEMS_COUNT];
-    float item;
+    float delta = (b - a) / (ITEMS_COUNT - 1);
 
     for (int i = 0; i < ITEMS_COUNT; i++) {
-        printf("Введите элемент массива (осталось %d): ", ITEMS_COUNT - i);
-        scanf("%f", &items[i]);
+        items[i] = a + delta * i;
     }
 
     return items;
@@ -75,7 +78,7 @@ float* readItems()
 void output(float* data)
 {
     for (int i = 0; i < ITEMS_COUNT; i++) {
-        printf("%f", data[i]);
+        printf("%d: %f\n", i, data[i]);
     }
 }
 
@@ -83,15 +86,15 @@ int main ()
 {
     float* rawItems;
     float* calculatedItems;
-    int a, b;
-
-    rawItems = readItems();
-    calculatedItems = calc(rawItems);
+    float a, b;
 
     printf("Введите пределы интегрирования, a = ");
-    scanf("%d", &a);
+    scanf("%f", &a);
     printf("b = ");
-    scanf("%d", &b);
+    scanf("%f", &b);
+
+    rawItems = getItems(a, b);
+    calculatedItems = calc(rawItems);
 
     printf("Интеграл методом трапеции = %f\n", trapezium(calculatedItems, a, b));
     printf("Интеграл методом Симпсона = %f\n", simpson(calculatedItems, a, b));

@@ -19,6 +19,7 @@ int main()
 
     while (i <= n) {
         sum += x / sin(i * x);
+        i++;
     }
 
     printf("%f\n", sum);
