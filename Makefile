@@ -1,4 +1,4 @@
-.PHONY: all lab1 lab2 lab3 lab4 lab5 clean dm1
+.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 clean dm1
 all:
 	make clean
 	make lab1
@@ -25,8 +25,11 @@ lab4:
 lab5:
 	g++ ./lab5/lab5.cpp -o ./bin/lab5
 
+lab6:
+	g++ ./lab6/lab6.cpp -o ./bin/lab6
+
 dm1:
-	g++ ./dm1/dm1.cpp -o ./bin/dm1
+	g++ ./dm1/dm1.cpp -o ./bin/dm1 -std=c++11
 
 clean:
 	rm -rf ./bin

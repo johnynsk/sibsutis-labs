@@ -6,9 +6,8 @@
  * @author Evgeniy Vasilev <info@evgeniyvasilev.ru>
  */
 #include <stdio.h>
-#include <math.h>
 #include <cstdlib>
-#include <string>
+#include <iostream>
 
 #define OPERATION_HALT 0
 #define OPERATION_COMPARE 1
@@ -21,8 +20,10 @@
 #define OPERATION_INPUT_A 8
 #define OPERATION_INPUT_B 9
 
+using namespace std;
+
 struct array {
-    char* items;
+    char *items;
     int length;
 };
 
@@ -69,7 +70,6 @@ struct array* readItems()
 {
     array* result = (struct array*) malloc(sizeof(struct array));
     char item;
-    bool found;
 
     result->length = 0;
 
@@ -198,16 +198,16 @@ struct array *getResidual(struct array *A, struct array *B)
  */
 void output(struct array* data)
 {
-    printf("array(%d) [\n", data->length);
+    cout<<"array("<<data->length<<") ["<<endl;
     for (int i = 0; i < data->length; i++) {
-        printf("\t'%c', \n", data->items[i]);
+        cout<<"\t'"<<data->items[i]<<"'"<<endl;
     }
-    printf("]\n");
+    cout<<"]"<<endl;
 }
 
 void outputCommented(struct array* data, const char *comment)
 {
-    printf("%s\n", comment);
+    cout<<comment<<endl;
     output(data);
 }
 
@@ -220,7 +220,7 @@ struct array *getSymmetrySub(struct array *A, struct array *B)
     return getResidual(getUnion(A, B), getIntersection(A, B));
 }
 
-bool iterator(struct array *A, struct array *B, int operation)
+bool iteratorLoop(struct array *A, struct array *B, int operation)
 {
     struct array *result;
     const char *comment;
@@ -231,9 +231,9 @@ bool iterator(struct array *A, struct array *B, int operation)
             outputCommented(B, "B=");
 
             if (checkSubset(A, B)) {
-                printf("A subset B\n");
+                cout<<"A subset B"<<endl;
             } else {
-                printf("A !subset B\n");
+                cout<<"A !subset B"<<endl;
             }
 
             return true;
@@ -269,21 +269,21 @@ bool iterator(struct array *A, struct array *B, int operation)
             outputCommented(B, "B = ");
 
             if (checkSubset(B, A)) {
-                printf("B subset A\n");
+                cout<<"B subset A"<<endl;
             } else {
-                printf("B !subset A\n");
+                cout<<"B !subset A"<<endl;
             }
 
             return true;
 
         case OPERATION_INPUT_A:
-            printf("Ввод множества A. по окончанию - ESC\n");
+            cout<<"Ввод множества A. Конец ввода - символ ESC"<<endl;
             replaceItems(A, readItems());
 
             return true;
 
         case OPERATION_INPUT_B:
-            printf("Ввод множества B. по окончанию - ESC\n");
+            cout<<"Ввод множества B. Конец ввода - символ ESC"<<endl;
             replaceItems(A, readItems());
 
             return true;
@@ -299,37 +299,42 @@ bool iterator(struct array *A, struct array *B, int operation)
     return true;
 }
 
+void printUsage()
+{
+    cout<<"Введите требуемую операцию: "<<endl;
+    cout<<"1 - сравнение A subset B"<<endl;
+    cout<<"2 - объединение A&B"<<endl;
+    cout<<"3 - пересечение A|B"<<endl;
+    cout<<"4 - разность A\\B"<<endl;
+    cout<<"5 - симметрическая разность A delta B"<<endl;
+    cout<<"6 - разность B\\A"<<endl;
+    cout<<"7 - сравнение B subset A"<<endl;
+    cout<<"8 - задать множество A"<<endl;
+    cout<<"9 - задать множество B"<<endl;
+    cout<<"0 - выход\n> "<<endl;
+
+}
+
 int main()
 {
     struct array *A, *B;
-    int command;
+    char command;
 
-    printf("Ввод множества A. по окончанию - ESC\n");
+    cout<<"Ввод множества A. Конец ввода - символ ESC"<<endl;
     A = readItems();
-    printf("Ввод множества B. по окончанию - ESC\n");
+    cout<<"Ввод множества B. Конец ввода - символ ESC"<<endl;
     B = readItems();
 
     do {
-        printf("Введите требуемую операцию: \n");
-        printf("1 - сравнение A subset B\n");
-        printf("2 - объединение A&B\n");
-        printf("3 - пересечение A|B\n");
-        printf("4 - разность A\\B\n");
-        printf("5 - симметрическая разность A delta B\n");
-        printf("6 - разность B\\A\n");
-        printf("7 - сравнение B subset A\n");
-        printf("8 - задать множество A\n");
-        printf("9 - задать множество B\n");
-        printf("0 - выход\n> ");
+        printUsage();
+        cin>>command;
 
-        scanf("%d", &command);
-
-        if (command == OPERATION_HALT) {
+        if (command - '0' == OPERATION_HALT) {
             break;
         }
 
-        if (!iterator(A, B, command)) {
-            printf("Неизвестная команда!\n");
+        if (!iteratorLoop(A, B, command - '0')) {
+            cout<<"Неизвестная команда!"<<endl;
         }
     } while (true);
 
