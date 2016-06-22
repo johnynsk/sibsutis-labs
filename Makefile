@@ -1,11 +1,22 @@
-.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab8 lab9 clean dm1
+.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 clean dm1
 all:
 	make clean
+	make sem2
+
+sem2:
 	make lab1
 	make lab2
 	make lab3
+	make lab4
 	make lab5
 	make dm1
+
+sem3:
+	make lab6
+	make lab7
+	make lab8
+	make lab9
+	make lab10
 
 lab1:
 	g++ ./lab1/lab1.cpp -o ./bin/lab1
@@ -28,11 +39,18 @@ lab5:
 lab6:
 	g++ ./lab6/lab6.cpp -o ./bin/lab6
 
+lab7:
+	g++ ./lab7/lab7.cpp -o ./bin/lab7
+
+
 lab8:
 	g++ ./lab8/lab8.cpp -o ./bin/lab8
 
 lab9:
 	g++ ./lab9/lab9.cpp -o ./bin/lab9
+
+lab10:
+	g++ ./lab10/lab10.cpp -o ./bin/lab10
 
 dm1:
 	g++ ./dm1/dm1.cpp -o ./bin/dm1 -std=c++11

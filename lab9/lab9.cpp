@@ -16,7 +16,7 @@ int main ()
     ofstream output;
     char symbol;
 
-    input.open("lab9.in.txt");
+    input.open("lab9.in.txt", ifstream::binary);
     output.open("lab9.out.txt");
 
     if (!input.is_open() || !output.is_open()) {
@@ -24,7 +24,8 @@ int main ()
     }
 
     while (input.good()) {
-        input>>symbol;
+        symbol = input.get();
+
         if (symbol == 'm') {
             symbol = 'M';
         }

@@ -7,26 +7,27 @@
  */
 #include <iostream>
 #include <cstdlib>
-#include <math.h>
+#include <cmath>
+
 using namespace std;
 
-float f (int a, int b, int x)
+float f (float a, float b, float x)
 {
-    if (abs(x) > a) {
+    if (fabs(x) >= a) {
         return 0;
     }
 
-    return b * exp(-pow(a, 2) / (pow(a, 2) - pow(abs(x), 2)));
+    return b * exp(-pow(a, 2) / (pow(a, 2) - pow(fabs(x), 2)));
 }
 
 int main ()
 {
     float a, b, x;
 
-    cout<<"Введите a, b, x через пробел"<<endl;
-    cin>>a>>b>>x;
+    cout << "Введите a, b, x через пробел" << endl;
+    cin >> a >> b >> x;
 
-    cout<<"result = "<<f(a, b, x)<<endl;
+    cout << "result = " << f(a, b, x) << "#" << x << ":" << a << ":" <<b << endl;
 
     return 0;
 }
