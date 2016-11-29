@@ -2,42 +2,41 @@
 #define PROJECT_APP
 #include <iostream>
 #include <string>
+#include "app/constants.h"
 #include "app/man.h"
+#include "app/file.h"
+#include <string.h>
+#include <cstdlib>
 
 using namespace std;
 
-class App
+namespace Application {
+
+
+class Iterator
 {
-    static const int
-        POSITION_BEGIN = -2,
-        POSITION_END = -1,
-
-        MODE_SURNAME = 1,
-        MODE_NUMBER = 2,
-        MODE_POINTS = 4,
-
-        OPERATION_HALT = 0,
-        OPERATION_FILENAME = 1,
-        OPERATION_SEARCH = 2,
-        OPERATION_INSERT = 3,
-        OPERATION_MODIFY = 4,
-        OPERATION_CREATE = 5;
-
     public:
-        App();
+        Iterator();
         void run();
 
     private:
         string filename;
         void _printUsage();
+        void _search();
+        void _showall();
+        void _load();
+        void _create();
+        void _modify();
+        void _insert();
 };
 
-App::App()
+Iterator::Iterator()
 {
     std::cout << "test output App" <<std::endl;
 }
 
-void App::run()
+void
+Iterator::run()
 {
     this->filename = "lab10.dat";
     int operation;
@@ -54,41 +53,170 @@ void App::run()
                 break;
 
             case OPERATION_FILENAME:
-                cin.ignore();
-                getline(cin, this->filename);
+                _load();
+
+                continue;
+
+            case OPERATION_SHOWALL:
+                _showall();
 
                 break;
 
             case OPERATION_SEARCH:
-                search(filename);
+                _search();
 
-                break;
+                continue;
 
             case OPERATION_INSERT:
-                break;
+                _insert();
+                continue;
 
             case OPERATION_MODIFY:
-                modify(filename);
+                _modify();
 
-                break;
+                continue;
 
             case OPERATION_CREATE:
-                create(filename);
+                _create();
 
-                break;
+                continue;
         }
     }
 }
 
-void App::_printUsage()
+void
+Iterator::_insert()
 {
-    cout << "Введите требуемую операцию: " << endl;
-    cout << "1 - задать имя файла" << endl;
-    cout << "2 - поиск записей в файле" << endl;
-    cout << "3 - добавление записи в файл" << endl;
-    cout << "4 - изменение существующей записи" << endl;
-    cout << "5 - создание файла" << endl;
-    cout << "0 - выход\n> " << endl;
+    Man item = Application::readMan();
+
+    while (true) {
+        cin.clear();
+        cout << "Введите позицию в файле (^ - начало файла, $ - конец файла, любое число - позиция в файле)" << endl
+            << "После этого элемента будет добавлен ваш > ";
+
+        std::string position;
+
+        getline(cin, position, '\n');
+
+        cout << "position: " << position;
+        if (position == "$") {
+            Application::File::insert(filename, item, Application::POSITION_END);
+            break;
+        }
+
+        if (position == "^") {
+            Application::File::insert(filename, item, Application::POSITION_BEGIN);
+            break;
+        }
+
+        long line = std::stol(position, nullptr, 10);
+
+        if (std::to_string(line) != position) {
+            continue;
+        }
+
+        if (line < 0) {
+            line = 0;
+        }
+
+        Application::File::insert(filename, item, line);
+        break;
+    }
 }
 
+void
+Iterator::_load()
+{
+    cout << "Введите название файла: > ";
+    cin.ignore();
+    getline(cin, this->filename);
+}
+
+
+void
+Iterator::_modify()
+{
+    int place = 0;
+    cout << "Введите номер элемента для модификации > ";
+    cin >> place;
+
+    cout << "Введите элемент для модификации" << endl;
+    Man item = Application::readMan();
+
+    Application::File::replace(filename, place, item);
+}
+
+void
+Iterator::_printUsage()
+{
+    cout
+        << endl
+        << "Введите требуемую операцию: " << endl
+        << Application::OPERATION_FILENAME << " - задать имя файла" << endl
+        << Application::OPERATION_SHOWALL << " - показать все записи" << endl
+        << Application::OPERATION_SEARCH << " - поиск записей в файле" << endl
+        << Application::OPERATION_INSERT << " - добавление записи в файл" << endl
+        << Application::OPERATION_MODIFY << " - изменение существующей записи" << endl
+        << Application::OPERATION_CREATE << " - создание файла" << endl
+        << Application::OPERATION_HALT << " - выход" << endl
+        << "> ";
+}
+
+void
+Iterator::_create()
+{
+    Application::File::create(filename);
+}
+
+
+
+void
+Iterator::_search()
+{
+    Man query;
+    string buffer;
+    int mode = 0;
+
+    cin.ignore();
+
+    cout << " фамилия > ";
+    getline(cin, buffer, '\n');
+
+    if (buffer.length()) {
+        strcpy(query.surname, buffer.c_str());
+        mode |= MODE_SURNAME;
+    }
+
+    cin.sync();
+    cout << " номер > ";
+    getline(cin, buffer, '\n');
+
+    if (buffer.length()) {
+        query.number = atoi(buffer.c_str());
+        mode |= MODE_NUMBER;
+    }
+
+    cin.sync();
+    cout << " очки > ";
+    getline(cin, buffer, '\n');
+
+    if (buffer.length()) {
+        query.points = atoi(buffer.c_str());
+        mode |= MODE_POINTS;
+    }
+
+    cin.sync();
+
+    Application::File::searchByQuery(filename, query, mode);
+}
+
+void
+Iterator::_showall()
+{
+    Man *item = new Man();
+    Application::File::searchByQuery(filename, *item, 0);
+}
+
+} //namespace Application
 #endif
+
