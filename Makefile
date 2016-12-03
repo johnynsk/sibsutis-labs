@@ -50,7 +50,7 @@ lab9:
 	g++ ./lab9/lab9.cpp -o ./bin/lab9
 
 lab10:
-	g++ ./lab10/lab10.cpp -o ./bin/lab10
+	g++ ./lab10/lab10.cpp -std=c++11 -o ./bin/lab10
 
 dm1:
 	g++ ./dm1/dm1.cpp -o ./bin/dm1 -std=c++11
