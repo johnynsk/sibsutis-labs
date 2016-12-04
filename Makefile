@@ -1,22 +1,63 @@
-.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 clean dm1
+.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1
+
 all:
 	make clean
 	make sem2
+	make sem3
 
-sem2:
+prog-sem2:
+	make clean
 	make lab1
 	make lab2
 	make lab3
 	make lab4
 	make lab5
-	make dm1
 
-sem3:
+prog-sem3:
 	make lab6
 	make lab7
 	make lab8
 	make lab9
 	make lab10
+
+sapd-sem3:
+	make sapd1
+
+sapd-test:
+	make test-sapd1
+
+sem2:
+	make prog-sem2
+	make dm1
+
+sem3:
+	make prog-sem3
+	make sapd-sem3
+
+sapd1:
+	g++ -g -std=c++11 ./sapd/lab1/lab1.cpp -o ./bin/sapd1
+
+sapd1-test:
+	make clean
+	make sapd1
+	touch ./report/sapd1.md
+	echo "10" | ./bin/sapd1 > ./report/sapd1.md
+	echo "50" | ./bin/sapd1 >> ./report/sapd1.md
+	echo "100" | ./bin/sapd1 >> ./report/sapd1.md
+	echo "200" | ./bin/sapd1 >> ./report/sapd1.md
+
+
+sapd2:
+	g++ ./sapd/lab2/lab2.cpp -o ./bin/sapd2
+
+sapd3:
+	g++ ./sapd/lab3/lab3.cpp -o ./bin/sapd3
+
+sapd4:
+	g++ ./sapd/lab4/lab4.cpp -o ./bin/sapd4
+
+sapd5:
+	g++ ./sapd/lab5/lab5.cpp -o ./bin/sapd5
 
 lab1:
 	g++ ./programming/lab1/lab1.cpp -o ./bin/lab1
@@ -58,3 +99,5 @@ dm1:
 clean:
 	rm -rf ./bin
 	mkdir ./bin
+	rm -rf ./report
+	mkdir ./report
