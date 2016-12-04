@@ -2,6 +2,8 @@
 #define ARRAY_H
 #include <cstdlib>
 #include <vector>
+#include <sstream>
+#include <string>
 
 namespace Sapd
 {
@@ -17,5 +19,25 @@ namespace Sapd
 
         return result;
     }
+
+    std::string
+    output(std::vector<int> array)
+    {
+        std::stringstream result;
+        result << "Array (" << std::to_string(array.size()) <<"): " << std::endl << "[";
+
+        for (size_t i = 0; i < array.size(); i++) {
+            if (i != 0) {
+                result << ", ";
+            }
+
+            result << std::to_string(array[i]).c_str();
+        }
+
+        result << "]" << std::endl;
+
+        return result.str();
+    }
+
 } //namespace Sapd
 #endif

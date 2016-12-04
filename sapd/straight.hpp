@@ -38,6 +38,18 @@ namespace Sapd
 
             return result;
         }
+
+        struct report
+        theorethicalReport(std::vector<int> array)
+        {
+            std::size_t length = array.size();
+            struct report result;
+
+            result.swaps = 3 * (length - 1);
+            result.compares = (length * length - length) / 2;
+
+            return result;
+        }
     }
 }
 

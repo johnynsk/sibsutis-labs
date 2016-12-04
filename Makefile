@@ -48,7 +48,16 @@ sapd1-test:
 
 
 sapd2:
-	g++ ./sapd/lab2/lab2.cpp -o ./bin/sapd2
+	g++ -g -std=c++11 ./sapd/lab2/lab2.cpp -o ./bin/sapd2
+
+sapd2-test:
+	make clean
+	make sapd2
+	touch ./report/sapd1.md
+	echo "10" | ./bin/sapd2 > ./report/sapd2.md
+	echo "50" | ./bin/sapd2 >> ./report/sapd2.md
+	echo "100" | ./bin/sapd2 >> ./report/sapd2.md
+	echo "200" | ./bin/sapd2 >> ./report/sapd2.md
 
 sapd3:
 	g++ ./sapd/lab3/lab3.cpp -o ./bin/sapd3
