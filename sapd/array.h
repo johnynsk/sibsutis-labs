@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string>
 
+#include "report.hpp"
+
 namespace Sapd
 {
     std::vector<int>
@@ -15,6 +17,56 @@ namespace Sapd
         for (int i = 0; i < length; i++)
         {
             result[i] = std::rand() % 200 - 100;
+        }
+
+        return result;
+    }
+
+    std::vector<int>
+    fillIncrease(int length)
+    {
+        std::vector<int> result(length);
+        int initial = -100;
+        for (int i = 0; i < length; i++) {
+            result[i] = std::rand() % 200 + initial;
+            initial = result[i];
+        }
+
+        return result;
+    }
+
+    std::vector<int>
+    fillDecrease(int length)
+    {
+        std::vector<int> result(length);
+        int initial = -10000;
+        for (int i = 0; i < length; i++) {
+            result[i] = initial - std::rand() % 200;
+            initial = result[i];
+        }
+
+        return result;
+    }
+
+    struct checksum
+    checksum(std::vector<int> vector)
+    {
+        struct checksum result;
+        result.sum = 0;
+        result.series = 0;
+
+        if (vector.size() == 0) {
+            return result;
+        }
+
+        int previous = vector[0];
+
+        for (std::size_t i = 0; i < vector.size(); i++) {
+            result.sum += vector[i];
+
+            if (previous > vector[i]) {
+                result.series++;
+            }
         }
 
         return result;
