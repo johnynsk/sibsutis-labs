@@ -2,6 +2,8 @@
 #define SHAKER_H
 #include "report.hpp"
 #include <vector>
+#include <map>
+#include <string>
 
 namespace Sapd
 {
@@ -52,6 +54,20 @@ namespace Sapd
             result.compares = compares;
             result.swaps = swaps;
             result.result = array;
+
+            return result;
+        }
+
+        std::map<std::string, struct report>
+        theorethicalReport(std::vector<int> array)
+        {
+            std::size_t length = array.size();
+            std::map<std::string, struct report> result;
+
+            result["avg"].swaps = length * length;
+            result["avg"].compares = length * length;
+            result["min"].compares = length - 1;
+            result["max"].compares = (length * length - length) / 2;
 
             return result;
         }

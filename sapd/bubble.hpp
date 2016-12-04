@@ -37,6 +37,19 @@ namespace Sapd
             return result;
         }
 
+        std::map<std::string, struct report>
+        theorethicalReport(std::vector<int> array)
+        {
+            std::size_t length = array.size();
+            std::map<std::string, struct report> result;
+
+            result["min"].swaps = 0;
+            result["min"].compares = length;
+            result["max"].swaps = 3 * (length * length - length) / 2;
+            result["min"].compares = (length * length - length) / 2;
+
+            return result;
+        }
     } //namespace Bubble
 } //namespace Sapd
 
