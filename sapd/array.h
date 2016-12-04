@@ -76,7 +76,7 @@ namespace Sapd
     output(std::vector<int> array)
     {
         std::stringstream result;
-        result << "Array (" << std::to_string(array.size()) <<"): " << std::endl << "[";
+        result << "vector<int> (" << std::to_string(array.size()) <<"): " << std::endl << "[";
 
         for (size_t i = 0; i < array.size(); i++) {
             if (i != 0) {
