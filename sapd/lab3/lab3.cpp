@@ -1,15 +1,9 @@
 #include <map>
-#include "../list.hpp"
 #include <iostream>
 
+#include "../list.hpp"
 #include "../report.hpp"
 #include "../array.h"
-
-#include "stdio.h"
-//#include <stdafx.h>
-#include <stdlib.h>
-#include <time.h>
-#include <locale>
 
 const int EXIT = 0;
 const int FILL_DATA = 1;
@@ -29,7 +23,7 @@ struct bundle {
 };
 
 std::map<std::string, struct checksum>
-calcChecksum(struct bundle bundle)
+calcChecksum(struct bundle *bundle)
 {
     std::map<std::string, struct checksum> result;
 
@@ -41,7 +35,7 @@ calcChecksum(struct bundle bundle)
 }
 
 std::string
-printChecksum(struct bundle bundle)
+printChecksum(struct bundle *bundle)
 {
     std::stringstream result;
     std::map<std::string, struct checksum> sums = calcChecksum(bundle);
@@ -50,9 +44,12 @@ printChecksum(struct bundle bundle)
         << "### Контрольные суммы" << std::endl << std::endl
         << "| struct | checksum | serie |" << std::endl
         << "|---|---|---|" << std::endl
-        << "| Очередь | " << sums["queue"].sum << " | " << sums["queue"].serie << " | " << std::endl
-        << "| Стек | " << sums["stack"].sum << " | " << sums["stack"].serie << " | " << std::endl
-        << "| Вектор | " << sums["vector"].sum << " | " << sums["Вектор"].serie << " | " << std::endl
+        << "| Очередь | " << std::to_string(sums["queue"].sum) << " | "
+        << std::to_string(sums["queue"].series) << " | " << std::endl
+        << "| Стек | " << std::to_string(sums["stack"].sum) << " | "
+        << std::to_string(sums["stack"].series) << " | " << std::endl
+        << "| Вектор | " << std::to_string(sums["vector"].sum) << " | "
+        << std::to_string(sums["Вектор"].series) << " | " << std::endl
         << std::endl;
 
     return result.str();
@@ -79,24 +76,24 @@ struct bundle
 
         if (command == FILL_RANDOM) {
             result->vector = fillRandom(length);
-            result->stack = fill(result->stack, result->vector);
-            result->queue = fill(result->queue, result->vector);
+            result->stack = Stack::fill(result->stack, result->vector);
+            result->queue = Queue::fill(result->queue, result->vector);
 
             return result;
         }
 
         if (command == FILL_INCREASE) {
             result->vector = fillIncrease(length);
-            result->stack = fill(result->stack, result->vector);
-            result->queue = fill(result->queue, result->vector);
+            result->stack = Queue::fill(result->stack, result->vector);
+            result->queue = Queue::fill(result->queue, result->vector);
 
             return result;
         }
 
         if (command == FILL_DECREASE) {
             result->vector = fillDecrease(length);
-            result->stack = fill(result->stack, result->vector);
-            result->queue = fill(result->queue, result->vector);
+            result->stack = Stack::fill(result->stack, result->vector);
+            result->queue = Queue::fill(result->queue, result->vector);
 
             return result;
         }
@@ -106,7 +103,7 @@ struct bundle
 int
 main()
 {
-    struct bundle *bundle;
+    struct bundle *bundle = new struct bundle;
     bundle->queue = create();
     bundle->stack = create();
     int command;
@@ -130,16 +127,21 @@ main()
             std::cout << "Введите длину данных: > ";
             std::cin >> length;
 
-            fill(length);
+            bundle = fill(length);
             continue;
         }
 
         if (command == VIEW) {
+            std::cout
+                << "vector: " << std::endl << output(bundle->vector) << std::endl
+                << "queue" << std::endl << render(bundle->queue) << std::endl
+                << "stack" << std::endl << render(bundle->stack) << std::endl;
+
             continue;
         }
 
         if (command == CHECKSUM) {
-            calcChecksum();
+            std::cout << printChecksum(bundle);
             continue;
         }
 
