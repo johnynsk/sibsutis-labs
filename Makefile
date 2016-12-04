@@ -22,6 +22,7 @@ prog-sem3:
 
 sapd-sem3:
 	make sapd1
+	make sapd2
 
 sapd-test:
 	make test-sapd1
@@ -53,14 +54,23 @@ sapd2:
 sapd2-test:
 	make clean
 	make sapd2
-	touch ./report/sapd1.md
+	touch ./report/sapd2.md
 	echo "10" | ./bin/sapd2 > ./report/sapd2.md
 	echo "50" | ./bin/sapd2 >> ./report/sapd2.md
 	echo "100" | ./bin/sapd2 >> ./report/sapd2.md
 	echo "200" | ./bin/sapd2 >> ./report/sapd2.md
 
 sapd3:
-	g++ ./sapd/lab3/lab3.cpp -o ./bin/sapd3
+	g++ -g -std=c++11 ./sapd/lab3/lab3.cpp -o ./bin/sapd3
+
+sapd3-test:
+	make clean
+	make sapd2
+	touch ./report/sapd3.md
+	echo "10" | ./bin/sapd3 > ./report/sapd3.md
+	echo "50" | ./bin/sapd3 >> ./report/sapd3.md
+	echo "100" | ./bin/sapd3 >> ./report/sapd3.md
+	echo "200" | ./bin/sapd3 >> ./report/sapd3.md
 
 sapd4:
 	g++ ./sapd/lab4/lab4.cpp -o ./bin/sapd4

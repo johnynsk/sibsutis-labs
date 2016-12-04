@@ -10,6 +10,12 @@ namespace Sapd
         int swaps;
         std::vector<int> result;
     };
+
+    struct checksum
+    {
+        int sum;
+        int series;
+    };
 }
 
 #endif
