@@ -30,7 +30,11 @@ double root(double a, double b, double epsilon)
         return equal(middle) * epsilon;
     }
 
-    return root(a, middle, epsilon) + root(middle, b, epsilon);
+    if (equal(middle) * equal(a) <= 0) {
+        return root(a, middle, epsilon);
+    }
+
+    return root(middle, b, epsilon);
 }
 
 int main ()
