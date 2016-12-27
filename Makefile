@@ -1,4 +1,4 @@
-.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1
+.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1 sapd4
 
 all:
 	make clean
@@ -65,7 +65,7 @@ sapd3:
 
 sapd3-test:
 	make clean
-	make sapd2
+	make sapd3
 	touch ./report/sapd3.md
 	echo "10" | ./bin/sapd3 > ./report/sapd3.md
 	echo "50" | ./bin/sapd3 >> ./report/sapd3.md
@@ -73,7 +73,17 @@ sapd3-test:
 	echo "200" | ./bin/sapd3 >> ./report/sapd3.md
 
 sapd4:
-	g++ ./sapd/lab4/lab4.cpp -o ./bin/sapd4
+	g++ ./sapd/lab4/lab4.cpp -g -std=c++11 -o ./bin/sapd4
+
+sapd4-test:
+	make clean
+	make sapd4
+	touch ./report/sapd4.md
+	echo -e "1\n10\n2\n4\n" | ./bin/sapd4 > ./report/sapd4.md
+	echo -e "1\n50\n2\n4\n" | ./bin/sapd4 >> ./report/sapd4.md
+	echo -e "1\n100\n2\n4\n" | ./bin/sapd4 >> ./report/sapd4.md
+	echo -e "1\n200\n2\n4\n" | ./bin/sapd4 >> ./report/sapd4.md
+
 
 sapd5:
 	g++ ./sapd/lab5/lab5.cpp -o ./bin/sapd5

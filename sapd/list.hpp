@@ -4,6 +4,9 @@
 #include <sstream>
 #include <vector>
 
+// debug
+#include <iostream>
+
 #include "report.hpp"
 
 namespace Sapd
@@ -19,10 +22,10 @@ namespace Sapd
     };
 
     void
-    drop(struct list &list)
+    drop(struct list *list)
     {
         struct item *item;
-        struct item *iterator = list.begin;
+        struct item *iterator = list->begin;
 
         while (iterator != NULL) {
             item = iterator;
@@ -31,8 +34,8 @@ namespace Sapd
             delete item;
         }
 
-        list.begin = nullptr;
-        list.end = nullptr;
+        list->begin = nullptr;
+        list->end = nullptr;
     }
 
     std::string
@@ -46,6 +49,8 @@ namespace Sapd
         items << "[";
 
         while (item != nullptr) {
+//            std::cerr << "render index = " << count << "; data = " << item->data <<"; \n";
+
             if (count != 0) {
                 items << ", ";
             }
@@ -74,11 +79,11 @@ namespace Sapd
     }
 
     struct list
-    clear(struct list &list)
+    *clear(struct list *list)
     {
         drop(list);
-        list.begin = nullptr;
-        list.end = nullptr;
+        list->begin = nullptr;
+        list->end = nullptr;
 
         return list;
     }
@@ -110,11 +115,13 @@ namespace Sapd
         return result;
     }
 
-    namespace Queue {
+    namespace Queue
+    {
         struct list
         *push(struct list *queue, int data)
         {
             struct item *item = new struct item;
+//            std::cerr << "push what = " << data << " to = " << render(queue) << std::endl;
             item->data = data;
             item->next = nullptr;
 
@@ -130,6 +137,19 @@ namespace Sapd
         }
 
         struct list
+        *append(struct list *destination, struct list *source)
+        {
+            struct item *item = source->begin;
+
+            while (item != nullptr) {
+                destination = push(destination, item->data);
+                item = item->next;
+            }
+
+            return destination;
+        }
+
+        struct list
         *fill(struct list *list, std::vector<int> &values)
         {
             for (std::size_t i = 0; i < values.size(); i++) {
@@ -137,6 +157,15 @@ namespace Sapd
             }
 
             return list;
+        }
+
+        struct item
+        *pop(struct list *queue)
+        {
+            struct item *item = queue->begin;
+            queue->begin = item->next;
+
+            return item;
         }
     } // namespace Queue
 
@@ -163,6 +192,7 @@ namespace Sapd
 
             return list;
         }
+
     } //namespace Stack
 } //namespace Sapd
 
