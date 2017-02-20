@@ -1,4 +1,4 @@
-.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1 sapd4
+.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1 sapd4 sapd21
 
 all:
 	make clean
@@ -23,6 +23,11 @@ prog-sem3:
 sapd-sem3:
 	make sapd1
 	make sapd2
+	make sapd3
+	make sapd4
+
+sapd-sem4:
+	make sapd21
 
 sapd-test:
 	make test-sapd1
@@ -87,6 +92,10 @@ sapd4-test:
 
 sapd5:
 	g++ ./sapd/lab5/lab5.cpp -o ./bin/sapd5
+
+sapd21:
+	g++ ./sapd/lab21/lab21.cpp -g -std=c++11 -o ./bin/sapd21
+
 
 lab1:
 	g++ ./programming/lab1/lab1.cpp -o ./bin/lab1
