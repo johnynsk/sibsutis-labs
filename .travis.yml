@@ -1,0 +1,12 @@
+language: cpp
+
+install: make
+
+compiler: g++
+
+before_script:
+    - make clean
+
+script:
+    - make all
+
