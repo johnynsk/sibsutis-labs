@@ -1,5 +1,5 @@
 .PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1 sapd4 sapd21
-
+# if [ "${VERSION}" \> "4.7" ]; then STD="-std=c++11"; else STD="-std=c++0x"; fi;
 all:
 	make clean
 	make sem2

@@ -2,14 +2,17 @@
 #include "abstract.hpp"
 #include "container.hpp"
 #include <utility>
+#include <map>
+#include <cstring>
+#include <iostream>
 
 namespace Tree
 {
 class Random : public Abstract
 {
     protected:
-        std::pair<Random, Random> leafs;
-        struct container value;
+        struct container *value;
+        std::pair<Random *, Random *> leafs;
 
     public:
         Random() : Abstract(2)
@@ -17,13 +20,15 @@ class Random : public Abstract
             this->value = nullptr;
         }
 
-        Random (struct container container) : Abstract(2)
+        Random (struct container *sourceContainer) : Abstract(2)
         {
-            this->value = container;
+            this->value = this->copy(sourceContainer);
         }
 
-        void push(struct container *container)
+        void push(struct container *sourceContainer)
         {
+            struct container *container = this->copy(sourceContainer);
+
             if (this->value == nullptr) {
                 this->value = container;
                 return;
@@ -31,48 +36,88 @@ class Random : public Abstract
 
             if (this->value->data <= container->data) {
                 if (!this->leafs.second) {
-                    this->leafs.second = container;
+                    this->leafs.second = new Random(container);
                     return;
                 }
 
-                this->leafs.second.push(container);
+                this->leafs.second->push(container);
                 return;
             }
 
-            if (!this->leafs.first) {
-                this->leafs.first = container;
+            if (this->leafs.first == nullptr) {
+                this->leafs.first = new Random(container);
                 return;
             }
 
-            this->leafs.first.push(container);
+            this->leafs.first->push(container);
             return;
 
         }
 
-        std::vector<struct container> getAllChilds()
+        std::vector<struct container *> getAllChilds()
         {
-            std::vector<struct container> result, buffer;
+            std::vector<struct container *> result, buffer;
 
             if (this->leafs.first) {
                 buffer = this->leafs.first->getAllChilds();
 
-                for (struct container element: buffer) {
-                    result.push_back(element);
+                for (struct container * element: buffer) {
+                    result.push_back(this->copy(element));
                 }
             }
 
-            if (this->value) {
-                result.push_back(this->value);
+            if (this->value != nullptr) {
+                result.push_back(this->copy(this->value));
             }
 
             if (this->leafs.second) {
                 buffer = this->leafs.second->getAllChilds();
 
-                for (struct container element: buffer) {
-                    result.push_back(element);
+                for (struct container * element: buffer) {
+                    result.push_back(this->copy(element));
                 }
             }
 
+            return result;
+        }
+
+        std::vector<struct container *> collectInfo()
+        {
+            return this->collectInfo(0);
+        }
+
+        std::vector<struct container *> collectInfo(size_t deep)
+        {
+            std::vector<struct container *> result, buffer;
+
+            if (this->leafs.first) {
+                buffer = this->leafs.first->collectInfo(deep + 1);
+
+                for (struct container * element: buffer) {
+                    result.push_back(this->copy(element));
+                }
+            }
+
+            if (this->value != nullptr) {
+                result.push_back(this->copy(this->value));
+            }
+
+            if (this->leafs.second) {
+                buffer = this->leafs.second->collectInfo(deep + 1);
+
+                for (struct container * element: buffer) {
+                    result.push_back(this->copy(element));
+                }
+            }
+
+            return result;
+        }
+
+
+        struct container * copy(struct container * source)
+        {
+            struct container * result = new struct container();
+            memcpy((void*) result, (void*)source, sizeof(source));
             return result;
         }
 };

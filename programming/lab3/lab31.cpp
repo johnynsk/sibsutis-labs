@@ -21,7 +21,7 @@ int main()
         sum += x / sin(i * x);
     }
 
-    printf("%f\n", sum);
+    printf("%2f\n", sum);
     return 0;
 }
 
