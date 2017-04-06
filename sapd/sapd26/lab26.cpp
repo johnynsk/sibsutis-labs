@@ -7,6 +7,7 @@
 #include <map>
 #include "./record.hpp"
 #include "../merge_t.hpp"
+#include "../tree/random_t.hpp"
 
 struct record_cp866 {
     char loaner[32];//32
@@ -37,7 +38,6 @@ std::map<std::string, std::vector<Record*> > sequence(std::vector<Record *> reco
     std::map<std::string, std::vector<Record *> > grouped;
 
     for (auto current: records) {
-        std::cout << ":" << current->getKey() << "\n";
         if (grouped.find(current->getKey()) == grouped.end()) {
             std::vector<Record *> container;
             grouped[current->getKey()] = container;
@@ -49,13 +49,26 @@ std::map<std::string, std::vector<Record*> > sequence(std::vector<Record *> reco
     return grouped;
 }
 
+void log(std::string message, int level) {
+    if (level == 1) {
+        std::cerr << message;
+    }
+}
+
 int main()
 {
     std::fstream file;
     file.open("./sapd/sapd26/BASE3.dat", std::ios::binary | std::ios::in);
 
+    if (!file.is_open()) {
+        std::cerr << "Не удалось открыть файл на чтение ./sapd/sapd26/BASE3.dat\n";
+        return 1;
+    }
+
     struct record_cp866 buffer;
     std::vector<Record*> records;
+
+    std::cerr << "Чтение из файла\n";
 
     int limiter = 0;
     while (file.good() && file.read((char*) &buffer, sizeof(buffer))) {
@@ -66,35 +79,70 @@ int main()
             to_utf8(std::string(&buffer.lawyer[0], &buffer.lawyer[21]))
         });
 
-        if (limiter >= 5) {
-            break;
-        }
-
         limiter++;
     }
 
     std::cerr << "readed " << records.size() << " records\n";
 
-    for (auto item: records) {
-        std::cerr << item->getLawyer() << "\n";
-    }
-
     auto sequenced = sequence(records);
     std::cerr << "sequenced " << sequenced.size() << " records\n";
 
-    for (auto item: sequenced) {
-        std::cerr << item.first << "\n";
-
-        for (auto element: item.second) {
-            std::cerr << "-- " << element->getLawyer() << " [" << element->getSum() << "]\n";
-        }
+    for (auto element: sequenced) {
+        std::cout << "* " << element.first << "\n";
     }
 
+    std::string searchKey;
+    std::cout << "Введите ключ поиска: ";
+    std::cin >> searchKey;
 
-    auto sorted = Sapd::Merge::sort<std::string, Record>(sequenced);
+    if (sequenced.find(searchKey) == sequenced.end()) {
+        std::cerr << "Записей с таким ключом не обнаружено\n";
+        return 2;
+    }
 
-    for (auto item: sorted) {
+    auto founded = sequenced[searchKey];
+
+    for (auto element: founded) {
+        std::cerr << "-- " << element->getLawyer() << " [" << element->getSum() << "\t" << element->getDate() << element->getLoaner() << "]\n";
+    }
+
+    std::cerr << "[total: " << founded.size() << "]\n";
+
+/*    std::map<int, std::vector<Record*>> treeData;
+//    std::vector<Record*>
+//    std::map<int, std::map<int, Record*>>;
+    for (auto element: founded) {
+        if (treeData.find(element->getSum()) == treeData.end()) {
+            std::vector<Record *> container;
+            treeData[element->getSum()] = container;
+        }
+
+        treeData[element->getSum()].push_back(element);
+    }*/
+
+    auto sorted = Sapd::Merge::sort(founded);
+
+    Tree::RandomT *tree = new Tree::RandomT();
+    for (auto element: sorted) {
+        tree->push(element);
+    }
+/*
+    for (auto list: sorted) {
+        for (auto item: list.second) {
+            item->setWeight =
+        }
         std::cerr << item.first << "\n";
+    }
+*/
+    std::cout << "Введите сумму для поиска: ";
+
+    int sum;
+    std::cin >> sum;
+
+    std::vector<Record*> filtered = tree->search<int, Record>(sum);
+
+    for (auto element: filtered) {
+        std::cout << element->getLawyer() << "\t" << element->getDate() << "\t" << element->getSum() <<"\n";
     }
 
     return 0;
