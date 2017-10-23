@@ -7,6 +7,7 @@
 #include <map>
 #include "./record.hpp"
 #include "../merge_t.hpp"
+#include "../merge.hpp"
 #include "../tree/random_t.hpp"
 
 struct record_cp866 {

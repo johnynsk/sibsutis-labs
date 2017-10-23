@@ -62,65 +62,28 @@ class RandomT : public Abstract
         {
             std::vector<Record*> result;
 
-            //this->leafs.first;//getAllChilds();
-            /*
             if (this->leafs.first != nullptr) {
                 auto buffer = this->leafs.first->getAllChilds();
 
                 for (auto element: buffer) {
-                    result.push_back(this->copy(element));
+                    result.push_back(element);
                 }
             }
 
             if (this->value != nullptr) {
-                result.push_back(this->copy(this->value));
+                result.push_back(this->value);
             }
 
             if (this->leafs.second != nullptr) {
-                buffer = this->leafs.second->getAllChilds();
+                auto buffer = this->leafs.second->getAllChilds();
 
                 for (auto element: buffer) {
-                    result.push_back(this->copy(element));
-                }
-            }
-
-            return result;*/
-        }
-/*
-        template <typename T>
-        std::vector<T *> collectInfo()
-        {
-            return this->collectInfo(0);
-        }
-
-        template<typename T>
-        std::vector<T *> collectInfo(size_t deep)
-        {
-            std::vector<T *> result, buffer;
-
-            if (this->leafs.first) {
-                buffer = this->leafs.first->collectInfo(deep + 1);
-
-                for (auto element: buffer) {
-                    result.push_back(this->copy(element));
-                }
-            }
-
-            if (this->value != nullptr) {
-                result.push_back(this->copy(this->value));
-            }
-
-            if (this->leafs.second) {
-                buffer = this->leafs.second->collectInfo(deep + 1);
-
-                for (auto element: buffer) {
-                    result.push_back(this->copy(element));
+                    result.push_back(element);
                 }
             }
 
             return result;
         }
-*/
 
         template <typename K, typename T>
         std::vector<T*> search(K key)
@@ -150,6 +113,10 @@ class RandomT : public Abstract
             return result;
         }
 
+        int sgetWidth()
+        {
+            return this->width;
+        }
 
 };
 }

@@ -18,5 +18,9 @@ class Abstract
     {
         this->width = 2;
     }
+
+    //virtual void getWidth();
+
+//    virtual std::vector<T*>getAllChilds();
 };
 } // namespace Tree

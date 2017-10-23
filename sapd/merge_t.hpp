@@ -193,7 +193,6 @@ namespace Sapd
                     int readedA = 0;
                     int readedB = 0;
 
-                    std::cerr << (**iteratorA > *iteratorB ? "true": "false") << "\n";
                     while ((iteratorA != listA.end()) && (iteratorB != listB.end())) {
                         if ((*iteratorA) <= (*iteratorB) && readedA < maxLength) {
                             queue.push_back(*iteratorA);
