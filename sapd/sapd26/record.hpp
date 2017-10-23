@@ -119,7 +119,6 @@ class Record
     }
 
     bool operator<(Record *second) {
-        std::cerr << "compare Record \n";
         if (this->getLawyer() < second->getLawyer()) {
             return true;
         }

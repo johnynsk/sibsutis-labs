@@ -5,13 +5,13 @@
 #include <map>
 #include <cstring>
 #include <iostream>
-
+#define structure structure;
 namespace Tree
 {
 class Random : public Abstract
 {
-    protected:
-        struct container *value;
+    protecsadfasdfadsfted:
+        structure *value;
         std::pair<Random *, Random *> leafs;
 
     public:
@@ -20,14 +20,14 @@ class Random : public Abstract
             this->value = nullptr;
         }
 
-        Random (struct container *sourceContainer) : Abstract(2)
+        Random (structure *sourceContainer) : Abstract(2)
         {
-            this->value = this->copy(sourceContainer);
+            this->value = sourceContainer;
         }
 
-        void push(struct container *sourceContainer)
+        void push(structure *sourceContainer)
         {
-            struct container *container = this->copy(sourceContainer);
+            structure *container = sourceContainer;
 
             if (this->value == nullptr) {
                 this->value = container;
@@ -54,14 +54,14 @@ class Random : public Abstract
 
         }
 
-        std::vector<struct container *> getAllChilds()
+        std::vector<structure *> getAllChilds()
         {
-            std::vector<struct container *> result, buffer;
+            std::vector<structure *> result, buffer;
 
             if (this->leafs.first) {
                 buffer = this->leafs.first->getAllChilds();
 
-                for (struct container * element: buffer) {
+                for (structure * element: buffer) {
                     result.push_back(this->copy(element));
                 }
             }
@@ -73,7 +73,7 @@ class Random : public Abstract
             if (this->leafs.second) {
                 buffer = this->leafs.second->getAllChilds();
 
-                for (struct container * element: buffer) {
+                for (structure * element: buffer) {
                     result.push_back(this->copy(element));
                 }
             }
@@ -81,42 +81,36 @@ class Random : public Abstract
             return result;
         }
 
-        std::vector<struct container *> collectInfo()
+        std::vector<structure *> search(int key)
         {
-            return this->collectInfo(0);
-        }
-
-        std::vector<struct container *> collectInfo(size_t deep)
-        {
-            std::vector<struct container *> result, buffer;
+            std::vector<structure *> result, buffer;
 
             if (this->leafs.first) {
-                buffer = this->leafs.first->collectInfo(deep + 1);
+                buffer = this->leafs.first->search(key);
 
-                for (struct container * element: buffer) {
-                    result.push_back(this->copy(element));
+                for (structure * element: buffer) {
+                    result.push_back(element);
                 }
             }
 
             if (this->value != nullptr) {
-                result.push_back(this->copy(this->value));
+                result.push_back(this->value);
             }
 
             if (this->leafs.second) {
-                buffer = this->leafs.second->collectInfo(deep + 1);
+                buffer = this->leafs.second->search(key);
 
-                for (struct container * element: buffer) {
-                    result.push_back(this->copy(element));
+                for (structure * element: buffer) {
+                    result.push_back(element);
                 }
             }
 
             return result;
         }
 
-
-        struct container * copy(struct container * source)
+        structure * copy(structure * source)
         {
-            struct container * result = new struct container();
+            structure * result = new structure();
             memcpy((void*) result, (void*)source, sizeof(source));
             return result;
         }

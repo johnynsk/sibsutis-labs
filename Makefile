@@ -1,9 +1,10 @@
-.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1 sapd4 sapd21 sapd26
+.PHONY: all lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8 lab9 lab10 sem2 sem3 sapd-sem3 sapd1 clean dm1 sapd4 sapd21 sapd26 arch sem4
 # if [ "${VERSION}" \> "4.7" ]; then STD="-std=c++11"; else STD="-std=c++0x"; fi;
 all:
 	make clean
 	make sem2
 	make sem3
+	make sem5
 
 prog-sem2:
 	make clean
@@ -39,6 +40,9 @@ sem2:
 sem3:
 	make prog-sem3
 	make sapd-sem3
+
+sem5:
+	make arch
 
 sapd1:
 	g++ -g -std=c++11 ./sapd/lab1/lab1.cpp -o ./bin/sapd1
@@ -135,6 +139,9 @@ lab10:
 
 dm1:
 	g++ ./discrete_mathematics/dm1/dm1.cpp -o ./bin/dm1 -std=c++11
+
+arch:
+	g++ ./arch/main.cpp -o ./bin/arch -std=c++11
 
 clean:
 	rm -rf ./bin
