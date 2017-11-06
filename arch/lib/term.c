@@ -28,7 +28,7 @@ int mt_clrscr(void)
 int mt_gotoXY(int x, int y)
 {
     char go[30];
-    sprintf(go, "\E[%d;%dH", x, y);
+    sprintf(go, "\E[%d;%dH", y, x);
     ssize_t len = strlen(go) * sizeof(char);
 
     if (write(STDOUT_FILENO, go, len) < len) {

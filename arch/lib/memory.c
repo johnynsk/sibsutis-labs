@@ -1,7 +1,5 @@
 #include "./memory.h"
 
-int8_t memory[MEMSIZE];
-
 int sc_memoryInit()
 {
     memset(memory, 0, MEMSIZE * sizeof(memory[0]));

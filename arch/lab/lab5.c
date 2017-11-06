@@ -4,10 +4,10 @@
 #include <signal.h>
 #include <sys/time.h>
 
-#include "lib/ui.h"
+#include "../lib/ui.h"
 
 struct itimerval nval, oval;
-/*
+
 void sighandler(int signum)
 {
     if (signum == SIGKILL) {
@@ -54,9 +54,5 @@ int main()
     write(1, "\e[0m", 4);
     rk_mytermrestore();
     mt_clrscr();
-    return 0;
-}
-*/
-int main(){
     return 0;
 }
