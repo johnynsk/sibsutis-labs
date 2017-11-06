@@ -7,6 +7,7 @@
 #include "registers.h"
 
 #define MEMSIZE 100
+int16_t memory[MEMSIZE];
 
 int sc_memoryInit();
 int sc_memorySet(int8_t address, int16_t value);

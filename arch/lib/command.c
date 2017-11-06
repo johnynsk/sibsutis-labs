@@ -2,7 +2,7 @@
 
 int sc_commandEncode(int8_t command, int8_t operand, int16_t *value)
 {
-    if (operand > 11 && operand < 20 || operand > 21 && operand < 30 || operand > 43 && operand < 51 || operand > 76) {
+    if ((operand > 11 && operand < 20) || (operand > 21 && operand < 30) || (operand > 43 && operand < 51) || operand > 76) {
         sc_regSet(FLAG_WRONG_COMMAND, 1);
         return COMMAND_ERROR;
     }
