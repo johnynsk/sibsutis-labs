@@ -9,7 +9,7 @@
 #include <stdlib.h>
 int *alph = NULL;
 
-void print_mem()
+void mock_print_mem()
 {
     bc_box(1, 1, 61, 12);
     mt_gotoXY(30, 0);
@@ -22,7 +22,7 @@ void print_mem()
     }
 }
 
-void print_accum()
+void mock_print_accum()
 {
     bc_box(62, 1, 22, 3);
     mt_gotoXY(66, 1);
@@ -33,7 +33,7 @@ void print_accum()
     write(1, tmp1, sizeof(tmp1));
 }
 
-void print_instcnt()
+void mock_print_instcnt()
 {
     bc_box(62, 4, 22, 3);
     mt_gotoXY(63, 4);
@@ -44,7 +44,7 @@ void print_instcnt()
     write(1, tmp1, sizeof(tmp1));
 }
 
-void print_operation()
+void mock_print_operation()
 {
     bc_box(62, 7, 22, 3);
     mt_gotoXY(68, 7);
@@ -55,7 +55,7 @@ void print_operation()
     write(1, tmp1, sizeof(tmp1));
 }
 
-void print_flg()
+void mock_print_flg()
 {
     bc_box(62, 10, 22, 3);
     mt_gotoXY(69, 10);
@@ -66,7 +66,7 @@ void print_flg()
     write(1, tmp1, strlen(tmp1));
 }
 
-void print_membc()
+void mock_print_membc()
 {
     bc_box(1, 13, 50, 10);
     bc_printbigchar(char_plus(), 2, 14, COLOR_YELLOW, COLOR_GREY);
@@ -75,7 +75,7 @@ void print_membc()
     }
 }
 
-void print_keys()
+void mock_print_keys()
 {
     bc_box(51, 13, 33, 10);
     mt_gotoXY(52, 13);
@@ -98,13 +98,13 @@ int main()
         return -1;
 
     mt_clrscr();
-    print_mem();
-    print_accum();
-    print_instcnt();
-    print_operation();
-    print_flg();
-    print_membc();
-    print_keys();
+    mock_print_mem();
+    mock_print_accum();
+    mock_print_instcnt();
+    mock_print_operation();
+    mock_print_flg();
+    mock_print_membc();
+    mock_print_keys();
     printf("\n");
     printf("\n");
     printf("\n");

@@ -13,9 +13,11 @@
 #include "term.h"
 #include "keys.h"
 #include "units.h"
+#include "log.h"
 int coordX, coordY;
 
-
+int ui_readvalue(int address);
+int ui_printvalue(int address);
 void print_mem();
 void print_accum();
 void print_instcnt();
