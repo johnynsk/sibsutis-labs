@@ -2,6 +2,7 @@
 
 int mt_getscreensize(int *rows, int *cols)
 {
+    vtrace;
     struct winsize ws;
     if (ioctl(1, TIOCGWINSZ, &ws)) {
         return -1;
@@ -15,6 +16,7 @@ int mt_getscreensize(int *rows, int *cols)
 
 int mt_clrscr(void)
 {
+    vtrace;
     char *clear;
     clear = "\E[H\E[2J";
     ssize_t len = strlen(clear) * sizeof(char);
@@ -27,6 +29,7 @@ int mt_clrscr(void)
 
 int mt_gotoXY(int x, int y)
 {
+//    vtrace;
     char go[30];
     sprintf(go, "\E[%d;%dH", y, x);
     ssize_t len = strlen(go) * sizeof(char);
@@ -39,6 +42,7 @@ int mt_gotoXY(int x, int y)
 
 int mt_setfgcolor(enum colors color)
 {
+    vtrace;
     char fg[30];
     sprintf(fg, "\e[38;5;%dm", color);
     ssize_t len = strlen(fg) * sizeof(char);
@@ -51,6 +55,8 @@ int mt_setfgcolor(enum colors color)
 
 int mt_setbgcolor(enum colors color)
 {
+    vtrace;
+
     char bg[30];
     sprintf(bg, "\e[48;5;%dm", color);
     ssize_t len = strlen(bg) * sizeof(char);
@@ -59,4 +65,22 @@ int mt_setbgcolor(enum colors color)
         return -1;
     }
     return 0;
+}
+
+void print_on_screen(const char * string)
+{
+    vtrace;
+    print_on_screen_stream(string, 1);
+}
+
+void print_on_screen_stream(const char * string, int stream_id)
+{
+    vtrace;
+    write(stream_id, string, strlen(string));
+}
+
+void mt_resetcolor()
+{
+    vtrace;
+    print_on_screen("\e[0m");
 }

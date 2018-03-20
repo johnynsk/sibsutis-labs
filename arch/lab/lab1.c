@@ -4,7 +4,7 @@
 void check_mem()
 {
     printf("memory tests--\n");
-    int16_t tmp = 0;
+    int tmp = 0;
     sc_memoryInit();
     if (!sc_memorySet(15, 15)) {
         printf("Set pass\n");
@@ -27,7 +27,7 @@ void check_reg()
 {
     printf("\n--REGISTER CHECK--\n");
     sc_regInit();
-    int16_t tmp = 0;
+    int tmp = 0;
     printf("test regSet()\n");
     if (!sc_regSet(FLAG_OVERFLOW, 1)) {
         printf("passed:\n");
@@ -38,7 +38,7 @@ void check_reg()
             printf("passed\n");
             printf("test accumulating flags:\n");
             sc_regSet(FLAG_MEMORY_ERROR, 1);
-            if (sc_register.flag == FLAG_OVERFLOW | FLAG_MEMORY_ERROR) {
+            if (sc_register.flag == (FLAG_OVERFLOW | FLAG_MEMORY_ERROR)) {
                 printf("flags accumulated true");
                 printf("**REGISTER OK\n");
                 return;

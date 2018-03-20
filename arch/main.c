@@ -5,49 +5,51 @@
 #include <sys/time.h>
 
 #include "lib/ui.h"
+#include "lib/log.h"
 
 struct itimerval nval, oval;
-/*
-void sighandler(int signum)
+
+void sighandler(int signal)
 {
-    if (signum == SIGKILL) {
+    trace;
+    if (signal == SIGKILL) {
         mt_clrscr();
         exit(0);
     }
-    if (signum == SIGALRM) {
-        int8_t freq_flg = 0,
-            comm_flg = 0,
-            inst_curr = 0;
-        sc_regGet(FLAG_TICK_IGNORE, &freq_flg);
-        sc_regGet(FLAG_WRONG_COMMAND, &comm_flg);
-        sc_instGet(&inst_curr);
 
-        if (comm_flg) {
-            sc_regSet(FLAG_TICK_IGNORE, 1);
-        }
+    if (signal != SIGALRM) {
+        return;
+    }
 
-        if (!freq_flg) {
-            step(&coordX, &coordY);
-            interface(coordX, coordY);
-        }
+    int tick_ignore;
+    int wrong_command;
+    int current_instruction;
 
-        if (inst_curr == 99)
-            sc_regSet(FLAG_TICK_IGNORE, 1);
+    sc_regGet(FLAG_TICK_IGNORE, &tick_ignore);
+    sc_regGet(FLAG_WRONG_COMMAND, &wrong_command);
+    sc_instGet(&current_instruction);
+    if (!tick_ignore) {
+        CU();
+        interface(coordX, coordY);
     }
 }
 
 int main()
 {
+    log_setlevel(LOG_OFF);
+//    log_setlevel(LOG_TRACE_DETAIL);
+//    log_setlevel(LOG_INFO);
+log_setlevel(LOG_DEBUG);
+    trace;
+    init();
     signal(SIGALRM, sighandler);
     signal(SIGKILL, sighandler);
 
     nval.it_interval.tv_sec = 0;
-    nval.it_interval.tv_usec = 80000;
+    nval.it_interval.tv_usec = 300000;
     nval.it_value.tv_sec = 0;
     nval.it_value.tv_usec = 50000;
     setitimer(ITIMER_REAL, &nval, &oval);
-
-    init();
 
     main_loop();
 
@@ -56,7 +58,7 @@ int main()
     mt_clrscr();
     return 0;
 }
-*/
-int main(){
+
+int main2(){
     return 0;
 }

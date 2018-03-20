@@ -8,7 +8,7 @@
 
 struct itimerval nval, oval;
 
-void sighandler(int signum)
+void sighandler2(int signum)
 {
     if (signum == SIGKILL) {
         mt_clrscr();
@@ -36,7 +36,7 @@ void sighandler(int signum)
     }
 }
 
-int main()
+int main2()
 {
     signal(SIGALRM, sighandler);
     signal(SIGKILL, sighandler);

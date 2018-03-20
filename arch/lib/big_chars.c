@@ -2,6 +2,7 @@
 
 int * bc_copy(int * bchar)
 {
+    vtrace;
     int * to = malloc(sizeof(int) * 64);
     for (int i = 0; i < 64; i++) {
         to[i] = bchar[i];
@@ -10,6 +11,7 @@ int * bc_copy(int * bchar)
 
 int bc_printA(char *str)
 {
+//    vtrace;
     ssize_t len = strlen(str) * sizeof(char);
     write(STDOUT_FILENO, GRAPH_SMACS, 3);
     if (write(STDOUT_FILENO, str, len) != len) {
@@ -22,6 +24,7 @@ int bc_printA(char *str)
 
 int bc_box(int x, int y, int width, int height)
 {
+    vtrace;
     int exitcode = 0;
 
     for (int i = 0; i < width; i++)
@@ -61,6 +64,7 @@ int bc_box(int x, int y, int width, int height)
 
 int bc_printbigchar(int *big, int x, int y, enum colors fgcolor, enum colors bgcolor)
 {
+    vtrace;
     mt_setbgcolor(bgcolor);
     mt_setfgcolor(fgcolor);
 
@@ -80,12 +84,12 @@ int bc_printbigchar(int *big, int x, int y, enum colors fgcolor, enum colors bgc
         write(STDOUT_FILENO, "\n", sizeof(char));
     }
 
-    mt_setbgcolor(COLOR_GREY);
-    mt_setfgcolor(COLOR_LIGHT_GREY);
+    mt_resetcolor();
 }
 
 int bc_setbigcharpos(int *big, int x, int y, short int value)
 {
+    vtrace;
     if (x < 0 || x > 7 || y < 0 || y > 7) {
         return GRAPH_BTEXT_OVERPOS;
     } else if (value > 1 || value < 0) {
@@ -104,8 +108,9 @@ int bc_setbigcharpos(int *big, int x, int y, short int value)
     return GRAPH_SUCCESS_CODE;
 }
 
-int bc_getbigcharpos(int *big, int x, int y, short int *value)
+int bc_getbigcharpos(int * big, int x, int y, short int *value)
 {
+    vtrace;
     if (x < 0 || x > 7 || y < 0 || y > 7)
         return GRAPH_BTEXT_OVERPOS;
 
@@ -124,6 +129,7 @@ int bc_getbigcharpos(int *big, int x, int y, short int *value)
 
 int bc_bigcharwrite(int fd, int *big, int count)
 {
+    vtrace;
     for (int i = 0; i < count * 64; i++)
         if (write(fd, &big[i], sizeof(int)) == -1)
             return 1;
@@ -132,6 +138,7 @@ int bc_bigcharwrite(int fd, int *big, int count)
 
 int bc_bigcharread(int fd, int *big, int need_count, int *count)
 {
+    vtrace;
     for (*count = 0; (*count < need_count * 64); *count += 1)
         if (read(fd, &big[*count], sizeof(int)) == -1)
             return 1;

@@ -4,8 +4,8 @@
 
 #define COMMAND_ERROR 1
 
-int sc_commandEncode(int8_t command, int8_t operand, int16_t *value);
-int sc_commandDecode(int16_t value, int8_t *command, int8_t *operand);
+int sc_commandEncode(int command, int operand, int *value);
+int sc_commandDecode(int value, int *command, int *operand);
 
 
 #endif

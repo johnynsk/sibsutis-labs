@@ -2,6 +2,7 @@
 #define ARCH_LIB_BIGCHARS_H
 
 #include "term.h"
+#include "log.h"
 #include <stdlib.h>
 
 int * bc_copy(int * from);
