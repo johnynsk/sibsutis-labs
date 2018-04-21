@@ -68,17 +68,20 @@ void print_accum()
     int acc = 0;
     sc_accumGet(&acc);
     char tmp[4];
-    sprintf(tmp, "%d", acc);
+    sprintf(tmp, "%4d", acc);
     print_on_screen(tmp);
 }
 
 void print_instcnt()
 {
     trace;
-    mt_gotoXY(71, 5);
+    mt_gotoXY(63, 5);
     int inst = 0;
     sc_instGet(&inst);
-    print_on_screen(sformat("%d", inst));
+    int memory_contents, command, operand;
+    sc_memoryGet(inst, &memory_contents);
+    sc_commandDecode(memory_contents, &command, &operand);
+    print_on_screen(sformat("%18s", sformat("%s|%d @ %2d", command_name(command), operand, inst)));
 }
 
 void print_operation(int x, int y)
@@ -90,8 +93,8 @@ void print_operation(int x, int y)
     int command;
     int operation;
     sc_commandDecode(memory_contents, &command, &operation);
-    mt_gotoXY(64, 8);
-    print_on_screen(sformat("%d%d;c:%s;v:%X", y, x, command_name(command), operation));
+    mt_gotoXY(63, 8);
+    print_on_screen(sformat("%18s", sformat("%s|%d @ %d%d", command_name(command), operation, y, x)));
 }
 
 void print_flags()
@@ -122,10 +125,11 @@ void print_bigmemory(int x, int y)
     log_debug(sformat("current_instruction %d", 10*y+x));
     sc_memoryGet(10 * y + x, &value);
     sc_commandDecode(value, &command, &operand);
-    bc_printbigchar(&font[(command / 16) * 64], 2 + 10 * 0, 14, COLOR_YELLOW, COLOR_GREEN);
-    bc_printbigchar(&font[(command % 16) * 64], 2 + 10 * 1, 14, COLOR_YELLOW, COLOR_GREEN);
     int sign = value < 0 ? 1 : 0;
-    bc_printbigchar(&font[(16 + sign) * 64], 2 + 10 * 2, 14, COLOR_YELLOW, COLOR_GREEN);
+    bc_printbigchar(&font[(16 + sign) * 64], 2 + 10 * 0, 14, COLOR_YELLOW, COLOR_GREEN);
+    bc_printbigchar(&font[(command / 16) * 64], 2 + 10 * 1, 14, COLOR_YELLOW, COLOR_GREEN);
+    bc_printbigchar(&font[(command % 16) * 64], 2 + 10 * 2, 14, COLOR_YELLOW, COLOR_GREEN);
+
     bc_printbigchar(&font[(operand / 16) * 64], 2 + 10 * 3, 14, COLOR_YELLOW, COLOR_GREEN);
     bc_printbigchar(&font[(operand % 16) * 64], 2 + 10 * 4, 14, COLOR_YELLOW, COLOR_GREEN);
 }
@@ -138,8 +142,8 @@ void print_keys()
     const char tmp[] = " Keys: ";
     print_on_screen(tmp);
     const char *tmp1[] = {"l - load", "s - save", "r - run", "t - step",
-        "i - reset", "F5 - accumulator", "F6 - instructionCounter"};
-    for (int i = 0; i < 7; i++) {
+        "i - reset", "F5 - accumulator", "F6 - instructionCounter", "F9 - enter command"};
+    for (int i = 0; i < 8; i++) {
         mt_gotoXY(52, 14 + i);
         print_on_screen(tmp1[i]);
     }
@@ -166,6 +170,8 @@ void load_mem()
         mt_gotoXY(30, 9);
         read(1, tmp, 1);
     }
+    sc_accumSet(0);
+    sc_instSet(0);
     refresh(coordX, coordY);
 }
 
@@ -380,21 +386,6 @@ void key_handler(int *exit, int * x, int * y)
         tick_ignore = (tick_ignore) ? 0 : 1;
         //sc_regSet(FLAG_WRONG_COMMAND, 1);
         sc_regSet(FLAG_TICK_IGNORE, tick_ignore);
-    }
-
-    if (!tick_ignore) {
-        return;
-    }
-
-    if (key == q) {
-        sc_regSet(FLAG_TICK_IGNORE, 1);
-        *exit = 1;
-    }
-
-    if (key == l) {
-        load_mem();
-    } else if (key == s) {
-        save_mem();
     } else if (key == up) {
         *x -= 1;
 
@@ -418,11 +409,25 @@ void key_handler(int *exit, int * x, int * y)
         if (*y > 9) {
             *y = 0;
         }
-    } else if (key == i) {
-        init();
+    }
+
+    coordX = *x;
+    coordY = *y;
+
+
+    if (!tick_ignore) {
+        return;
+    }
+
+    if (key == q) {
         sc_regSet(FLAG_TICK_IGNORE, 1);
-        *x = 0, *y = 0;
-        refresh(*x, *y);
+        *exit = 1;
+    }
+
+    if (key == l) {
+        load_mem();
+    } else if (key == s) {
+        save_mem();
     } else if (key == f5) {
         set_accum();
     } else if (key == f6) {
@@ -436,7 +441,13 @@ void key_handler(int *exit, int * x, int * y)
         sc_regSet(FLAG_TICK_IGNORE, 1);
     } else if (key == enter) {
         set_mem();
+    } else if (key == i) {
+        init();
+        sc_regSet(FLAG_TICK_IGNORE, 1);
+        *x = 0, *y = 0;
+        refresh(*x, *y);
     }
+
 
     coordX = *x;
     coordY = *y;
@@ -525,11 +536,12 @@ int ui_printvalue(int address)
     mt_gotoXY(23, 7);
 
     int value;
-    log_debug(sformat("current_instruction %d value = %d", address, value));
     sc_memoryGet(address, &value);
     char string_value[10] = "\0";
     sprintf(string_value, "%d", value);
     print_on_screen(string_value);
+    log_debug(sformat("current_instruction %d value = %d; strvalue = %s .", address, value, string_value));
+
 
     mt_gotoXY(29, 9);
     mt_setbgcolor(COLOR_RED);
@@ -553,7 +565,7 @@ void interface(int x, int y)
     log_debug(sformat("x=%d y=%d", x, y));
     print_operation(x, y);
     print_flags();
-//    print_bigmemory(x, y);
+    print_bigmemory(x, y);
 }
 
 void main_loop()

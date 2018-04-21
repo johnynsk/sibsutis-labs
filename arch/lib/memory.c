@@ -27,17 +27,15 @@ int sc_memoryGet(int address, int * value)
         *value = memory[address];
         return 0;
     }
-    log_debug(sformat("address %d value %d", address, *value));
 
     sc_regSet(FLAG_MEMORY_ERROR, 1);
     return ERROR_ILLEGAL_ADDRESS;
 }
 
-int sc_memorySave(char *filename)
+int sc_memorySave(const char *filename)
 {
     trace;
     FILE *f = fopen(filename, "wb");
-    print_on_screen(filename);
     if (f == NULL) {
         return ERROR_IO_FILE;
     }
@@ -47,7 +45,7 @@ int sc_memorySave(char *filename)
     return 0;
 }
 
-int sc_memoryLoad(char *filename)
+int sc_memoryLoad(const char *filename)
 {
     trace;
     FILE *f = fopen(filename, "rb");

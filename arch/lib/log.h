@@ -25,7 +25,7 @@ int log_trace(const char * file_name, const char * function_name, int line, int 
 int log_trace_msg(const char * file_name, const char * function_name, int line, int level, const char * message);
 void log_setlevel(int level);
 
-char * sformat(const char * format, ...);
+const char * sformat(const char * format, ...);
 char * sconcat(const char * first, const char * second);
 const char * srepresent(const char * string);
 const char * stoupper(const char * string);

@@ -15,6 +15,7 @@ void CU()
     if (sc_commandDecode(memory_contents, &command, &operand)) {
         sc_regSet(FLAG_WRONG_COMMAND, 1);
         sc_regSet(FLAG_TICK_IGNORE, 1);
+        trace;
         return;
     }
 
@@ -22,12 +23,14 @@ void CU()
     int had_overflow;
     sc_regGet(FLAG_OVERFLOW, &had_overflow);
     if (had_overflow) {
+        trace;
         sc_regSet(FLAG_TICK_IGNORE, 1);
         return;
     }
 
     sc_regGet(FLAG_TICK_IGNORE, &tick_ignore);
     if (tick_ignore) {
+        trace;
         return;
     }
 
@@ -35,12 +38,14 @@ void CU()
     sc_instGet(&new_instruction);
 
     if (new_instruction != current_instruction) {
+        trace;
         return;
     }
 
     current_instruction++;
 
     if (current_instruction < 0 || current_instruction > 99) {
+        trace;
         sc_regSet(FLAG_TICK_IGNORE, 1);
         return;
     }
@@ -220,7 +225,7 @@ int command_mul(int operand)
 int command_jump(int operand)
 {
     trace;
-    sc_instSet(--operand);
+    sc_instSet(operand);
     return 0;
 }
 
@@ -230,7 +235,7 @@ int command_jneg(int operand)
     int tmp = 0;
     sc_accumGet(&tmp);
     if (tmp <= 0)
-        sc_instSet(--operand);
+        sc_instSet(operand);
     return 0;
 }
 
@@ -240,7 +245,7 @@ int command_jz(int operand)
     int tmp = 0;
     sc_accumGet(&tmp);
     if (tmp == 0)
-        sc_instSet(--operand);
+        sc_instSet(operand);
     return 0;
 }
 

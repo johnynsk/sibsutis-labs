@@ -67,8 +67,8 @@ int sc_accumGet(int *value)
 int sc_accumSet(int value)
 {
     vtrace;
-    if (value > 127 || value < -128)
-        return -1;
+/*    if (value > 127 || value < -128)
+        return -1;*/
     sc_register.accum = value;
     return 0;
 }
@@ -83,8 +83,10 @@ int sc_instGet(int *value)
 int sc_instSet(int value)
 {
     vtrace;
-    if (value >= 100)
+    if (value >= 100) {
         return -1;
+    }
+
     sc_register.count = value;
     return 0;
 }

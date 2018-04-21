@@ -1,6 +1,6 @@
 #ifndef GENCHAR_H
 #define GENCHAR_H
-#include "char.c"
+#include "../lib/char.h"
 #include <fcntl.h>
 #include <stdlib.h>
 #endif

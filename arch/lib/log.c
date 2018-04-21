@@ -73,16 +73,18 @@ int log_write(const char * info, int level)
     return 0;
 }
 
-char * sformat(const char * format, ...)
+const char * sformat(const char * format, ...)
 {
-    static char buffer[2048];
+    char buffer[2048];
     va_list args;
     va_start(args, format);
     vsprintf(buffer, format, args);
     va_end(args);
 
     buffer[2047] = '\0';
-    return &buffer[0];
+    char * result = (char*) malloc (sizeof(char) * strlen(buffer));
+    strcpy(result, buffer);
+    return result;
 }
 
 char * sconcat(const char * first, const char * second)

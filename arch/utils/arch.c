@@ -4,8 +4,8 @@
 #include <signal.h>
 #include <sys/time.h>
 
-#include "lib/ui.h"
-#include "lib/log.h"
+#include "../lib/ui.h"
+#include "../lib/log.h"
 
 struct itimerval nval, oval;
 
@@ -39,7 +39,7 @@ int main()
     log_setlevel(LOG_OFF);
 //    log_setlevel(LOG_TRACE_DETAIL);
 //    log_setlevel(LOG_INFO);
-log_setlevel(LOG_DEBUG);
+//log_setlevel(LOG_DEBUG);
     trace;
     init();
     signal(SIGALRM, sighandler);
@@ -59,6 +59,3 @@ log_setlevel(LOG_DEBUG);
     return 0;
 }
 
-int main2(){
-    return 0;
-}
