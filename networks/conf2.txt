@@ -1,0 +1,26 @@
+hostname Additional
+
+username Main password 123qwe
+
+ip dhcp exc 10.2.0.1 10.2.0.16
+ip dhcp pool add
+network 10.2.0.0 255.255.255.0
+default 10.2.0.1
+dns 10.1.10.2
+exit
+
+int Fa0/0
+ip address 10.2.0.1 255.255.255.0
+mtu 1290
+no shutdown
+exit
+
+int Se0/0
+ip address 192.168.1.2 255.255.255.0
+no shutdown
+clock rate 128000
+exit
+
+ip route 0.0.0.0 0.0.0.0 192.168.1.1
+
+end

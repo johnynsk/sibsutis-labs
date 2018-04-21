@@ -1,0 +1,155 @@
+hostname Main
+username Additional password 123qwe
+
+ipv6 dhcp exc
+ipv6 dhcp pool mainv6
+
+
+ip dhcp exc 10.1.10.1 10.1.10.16
+ip dhcp pool main
+network 10.1.10.0 255.255.255.0
+default 10.1.10.1
+dns 10.1.10.2
+exit
+
+ip dhcp exc 10.0.30.1 10.0.30.16
+ip dhcp pool intvlan30
+network 10.0.30.0 255.255.255.0
+default 10.0.30.1
+dns 10.1.10.2
+exit
+
+ip dhcp exc 10.1.30.1 10.1.30.16
+ip dhcp pool vlan30
+network 10.1.30.0 255.255.255.0
+default 10.1.30.1
+dns 10.1.10.2
+exit
+
+ip dhcp exc 10.0.40.1 10.0.40.16
+ip dhcp pool intvlan40
+network 10.0.40.0 255.255.255.0
+default 10.0.40.1
+dns 10.1.10.2
+exit
+
+ip dhcp exc 10.1.40.1 10.1.40.16
+ip dhcp pool vlan40
+network 10.1.40.0 255.255.255.0
+default 10.1.40.1
+dns 10.1.10.2
+exit
+
+int Fa0/0
+ip address 10.1.10.1 255.255.255.0
+no shutdown
+exit
+
+
+int Se0/3/0
+ip address 192.168.1.1 255.255.255.0
+encapsulation ppp
+ppp authentication chap
+clock rate 128000
+no shutdown
+exit
+
+ip routing
+
+int vlan 30
+description internal vlan 30
+ip address 10.0.30.1 255.255.255.0
+no shutdown
+exit
+
+int vlan 40
+description internal vlan 40
+ip address 10.0.40.1 255.255.255.0
+no shutdown
+exit
+
+
+int Fa0/2/1
+switchport access vlan 40
+switchport mode access
+no shutdown
+exit
+
+int Fa0/2/0
+switchport access vlan 30
+switchport mode access
+no shutdown
+exit
+
+ip route 10.2.0.0 255.255.0.0 192.168.1.2
+
+int fa0/0.30
+encapsulation dot1Q 30
+ip address 10.1.30.1 255.255.255.0
+no shutdown
+exit
+
+int fa0/0.40
+encapsulation dot1Q 40
+ip address 10.1.40.1 255.255.255.0
+no shutdown
+exit
+
+
+int fa0/2/2
+shutdown
+exit
+
+int fa0/2/3
+shutdown
+exit
+
+int se0/3/1
+shutdown
+exit
+end
+
+
+ipv6 dhcp pool mainv6
+prefix-delegation pool mainv6-n
+exit
+ipv6 unicast-routing
+
+int fa0/0
+ipv6 address FC00::1:10:1:0/106
+ipv6 dhcp server mainv6
+no shutdown
+exit
+
+int fa0/0.30
+ipv6 address FC00::1:30:1:0/106
+ipv6 dhcp server mainv6.30
+no shutdown
+exit
+
+int fa0/0.40
+ipv6 address FC00::1:40:1:0/106
+ipv6 dhcp server mainv6.40
+no shutdown
+exit
+
+int fa0/0.30
+ipv6 address FC00::1:30:1:0/106
+ipv6 dhcp server mainv6.30
+no shutdown
+exit
+
+int vlan 30
+ipv6 address FC00::0:30:1:0/106
+ipv6 dhcp server intvl6.30
+no shutdown
+exit
+
+
+int vlan 40
+ipv6 address FC00::0:40:1:0/106
+ipv6 dhcp server intvl6.40
+no shutdown
+exit
+
+exit

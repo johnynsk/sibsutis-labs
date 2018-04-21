@@ -1,0 +1,9 @@
+
+vlan 30
+name VLAN30
+exit
+
+vlan 40
+name VLAN40
+exit
+
