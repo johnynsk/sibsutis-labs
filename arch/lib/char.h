@@ -2,7 +2,7 @@
 #define ARCH_CHAR_H
 
 #include <stdlib.h>
-#include "lib/big_chars.h"
+#include "big_chars.h"
 
 int * char_0();
 int * char_1();
