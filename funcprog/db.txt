@@ -1,0 +1,4 @@
+:- dynamic product/3.
+
+product('Snickers', 2, 1).
+
