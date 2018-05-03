@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>editfilm</class>
+ <widget class="QWidget" name="editfilm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLineEdit" name="editTitle">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>381</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>128</number>
+   </property>
+   <property name="placeholderText">
+    <string>Название фильма</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="editOriginalTitle">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>311</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="maxLength">
+    <number>128</number>
+   </property>
+   <property name="placeholderText">
+    <string>Название фильма на языке оригинала</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="editYear">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>60</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="inputMask">
+    <string>####</string>
+   </property>
+   <property name="maxLength">
+    <number>4</number>
+   </property>
+   <property name="placeholderText">
+    <string>год</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="editDescription">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>160</y>
+     <width>381</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="documentTitle">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
