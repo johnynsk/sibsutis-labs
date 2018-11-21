@@ -1,0 +1,17 @@
+INPUT(
+./debug/main.o
+./debug/loginwindow.o
+./debug/userstable.o
+./debug/user.o
+./debug/exceptions.o
+./debug/usermainwindow.o
+./debug/editfilm.o
+./debug/adminmainwindow.o
+./debug/film.o
+./debug/Di.o
+./debug/course_plugin_import.o
+./debug/moc_loginwindow.o
+./debug/moc_usermainwindow.o
+./debug/moc_editfilm.o
+./debug/moc_adminmainwindow.o
+);
