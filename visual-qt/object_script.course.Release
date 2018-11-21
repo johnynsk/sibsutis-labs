@@ -1,0 +1,17 @@
+INPUT(
+./release/main.o
+./release/loginwindow.o
+./release/userstable.o
+./release/user.o
+./release/exceptions.o
+./release/usermainwindow.o
+./release/editfilm.o
+./release/adminmainwindow.o
+./release/film.o
+./release/Di.o
+./release/course_plugin_import.o
+./release/moc_loginwindow.o
+./release/moc_usermainwindow.o
+./release/moc_editfilm.o
+./release/moc_adminmainwindow.o
+);
