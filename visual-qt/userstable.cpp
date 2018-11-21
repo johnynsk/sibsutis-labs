@@ -18,7 +18,8 @@ User * UsersTable::getUser(User * user) {
         throw UsersException(query.lastError().text());
     }
 
-    if (query.size() <= 0) {
+    query.last();
+    if (query.at() + 1 <= 0) {
         throw UserNotFoundException("Пользователь не найден");
     }
 
@@ -54,7 +55,9 @@ User * UsersTable::auth(User * user) {
         throw DataBaseException(query.lastError().text());
     }
 
-    if (query.size() <= 0) {
+    query.last();
+
+    if (query.at() + 1 <= 0) {
         throw UserNotFoundException("Пользователь с такими данными не найден");
     }
 
@@ -66,6 +69,12 @@ User * UsersTable::persist(User * user) {
     QSqlQuery query(this->db);
 
     if (!user->getUserId()) {
+        try {
+            if (getUser(user)) {
+                throw UserExistsException("Пользователь с такими данными уже существует");
+            }
+        } catch (UserNotFoundException &exception) {
+        }
         query.prepare("INSERT INTO users (id, username, password, first_name, last_name, privileges, registration_date) VALUES (NULL, :username, :password, :first_name, :last_name, :privileges, :registration_date)");
         needCreate = true;
     } else {
