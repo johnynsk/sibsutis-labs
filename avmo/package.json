@@ -1,0 +1,16 @@
+{
+  "name": "avmo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lab1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "lodash": "^4.17.11",
+    "underscore": "^1.9.1"
+  }
+}
