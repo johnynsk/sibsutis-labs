@@ -5,6 +5,7 @@ let lab2 = require('./lab2')
 let lab3 = require('./lab3')
 let simplex = require('./simplex')
 let expect = require('chai').expect
+let color = require("cli-color");
 
 let coeff = [
     [-6, -5, -1, 9, -10],
@@ -69,25 +70,65 @@ describe('lab3', () => {
         for (let value of iterator) {
             console.log(`${value.step}\t | ${Number(value.point.next[0]).toFixed(6)}\t | ${Number(value.point.next[1]).toFixed(6)}\t | ${Number(value.fN).toFixed(6)}\t | ${Number(value.gN).toFixed(6)}\t | ${value.inBounds}\t | ${Number(value.alpha).toFixed(6)}\t | ${Number(value.accuracy).toFixed(6)}\t |`)
         }
-    })
+    }).timeout(10000);
 })
 
-describe.only('simplex', () => {
+let printMatrix = (matrix, resolver) => {
+    var result = matrix.map((row, index) => row.map((item, column) => {
+        var pad = 10;
+        if (typeof item == 'number' && index > 0 && column > 0) {
+            var rounded = (Math.round(item * 100000) / 100000).toPrecision(7).padEnd(pad, ' ');
+            if (resolver != null && index == resolver.row && column == resolver.column) {
+                return color.magentaBright(rounded);
+            }
+
+            if (item > 0) {
+                return color.green(rounded)
+            }
+
+            return color.blue(rounded)
+        }
+        if (typeof item == 'number') {
+            return color.yellowBright(`x${item}`.padEnd(pad, ' '))
+        }
+
+        return color.yellow(item.padEnd(pad, ' '))
+    }))
+    .map(row => row.join(" | "))
+    .join("\n")
+
+    console.log(result);
+};
+
+describe('simplex', () => {
     it('simplex my variant', () => {
         let lab = simplex()
-        lab.setAccuracy(Math.pow(10, -6))
-        let M = 1 / Math.pow(10, -4)
-        lab.addCondition([3, 1], 12);
-        lab.addCondition([1, 2], 14);
-        lab.addCondition([4, 11], 68);
-        lab.setTarget([9, 2]);
+        lab.setTarget([9, 2])
+            .addCondition([3, 1], 12)
+            .addCondition([1, 2], 14)
+            .addCondition([4, 11], 68)
+            .setMultiplyer(Math.pow(10, 5))
+            .setAccuracy(Math.pow(10, -6))
+
         let iterator = lab.solve(10)
         let solution = null;
+        let count = 0;
         for (let value of iterator) {
-            console.log(value)
+            console.log(`Perform matrix in step ${count}`);
+            if (value.solution != null) {
+                console.log(`Got resolving element in [${value.solution.row}, ${value.solution.column}] = ${color.magentaBright(value.solution.value.toFixed(5))}`);
+            }
+
+            printMatrix(value.matrix, value.solution)
             if ('roots' in value) {
                 solution = value.roots;
+                console.log(`Result matrix in step ${count}`);
+                console.log(`Got solution in step ${count}`, value.string);
+                console.log(`Target function value = ${value.matrix.filter(row => row[0] == 'TARGET')[0][1]}`)
             }
+
+            count++;
         }
+        expect(solution).to.deep.equal([0, 12]);
     })
 })
