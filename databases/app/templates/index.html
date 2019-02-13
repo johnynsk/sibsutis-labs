@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>lusher</title>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="semantic/semantic.min.js"></script>
+
+</head>
+<body role="document">
+
+<div class="ui text container">
+    <h3 class="first">Coursework demonstration</h3>
+    <p></p>
+    <p>
+        <button class="ui labeled icon primary button" data-action="recreate"><i class="icon redo"></i>Recreate</button>
+        <button class="ui labeled icon button green" data-action="fill"><i class="icon plus"></i>Fill table</button>
+        <button class="ui labeled icon button yellow" data-action="recreate-fill"><i class="icon plus"></i>Recreate and fill table</button>
+    </p>
+
+    <div class="ui message hidden">
+    </div>
+
+    <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="all-records">All records</a>
+        <a class="item" data-tab="columns">Columns</a>
+        <a class="item" data-tab="excluding">Excluding</a>
+        <a class="item" data-tab="companies">Companies</a>
+    </div>
+    <div class="ui bottom attached tab segment active" data-tab="all-records">
+        <p>Here you can show all records in the table</p>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="columns">
+        <p>Here you can receive the data about available columns in the table</p>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="excluding">
+        <p>Here you can filter records in the table by the specific value</p>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="companies">
+        <p>Here you can receive all records familiar by the specified argument</p>
+    </div>
+
+    <div class="page hidden list-cells">
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Job</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-label="Name">James</td>
+                <td data-label="Age">24</td>
+                <td data-label="Job">Engineer</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Jill</td>
+                <td data-label="Age">26</td>
+                <td data-label="Job">Engineer</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Elyse</td>
+                <td data-label="Age">24</td>
+                <td data-label="Job">Designer</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="ui text container">
+    <div class="ui one column grid">
+        <div class="column"></div>
+    </div>
+</div>
+<script src="/page.js"></script>
+</body>
+</html>

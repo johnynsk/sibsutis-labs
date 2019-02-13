@@ -1,0 +1,14 @@
+{
+  "name": "databases",
+  "version": "1.0.0",
+  "description": "Sample for Databases course in SibSUTIS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Evgeniy Vasilev http://evgeniyvasilev.ru",
+  "license": "ISC",
+  "dependencies": {
+    "semantic-ui": "^2.4.2"
+  }
+}
