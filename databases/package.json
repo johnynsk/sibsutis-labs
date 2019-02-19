@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Evgeniy Vasilev http://evgeniyvasilev.ru",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "semantic-ui": "^2.4.2"
   }

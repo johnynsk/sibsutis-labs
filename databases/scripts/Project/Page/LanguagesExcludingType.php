@@ -10,12 +10,12 @@ class LanguagesExcludingType extends PageAbstract {
             throw new UnspecifiedParameter("exclude_type");
         }
 
-        $type = $arguments['exclude_type'];
+        $type = urldecode($arguments['exclude_type']);
 
         if ($type == 'first') {
             $query = $this->di->getMysql()->prepare("SELECT * FROM `Языки` WHERE `Тип` != (SELECT DISTINCT(`Тип`) FROM `Языки` ORDER BY `Тип` ASC LIMIT 1) ORDER BY `N` ASC");
             $query->execute();
-        } else if ($type = 'last') {
+        } else if ($type == 'last') {
             $query = $this->di->getMysql()->prepare("SELECT * FROM `Языки` WHERE `Тип` != (SELECT DISTINCT(`Тип`) FROM `Языки` ORDER BY `Тип` DESC LIMIT 1) ORDER BY `N` ASC");
             $query->execute();
         } else {

@@ -12,7 +12,7 @@ class LanguagesColumn extends PageAbstract {
         }
 
         $columns = (new Column($this->di))->invoke(null, null);
-        $columnName = $arguments["column_name"];
+        $columnName = urldecode($arguments["column_name"]);
 
         if (!in_array($columnName, $columns["columns"])) {
             throw new BadRequestException("You have specified the wrong column name.");
@@ -20,7 +20,7 @@ class LanguagesColumn extends PageAbstract {
 
 
         $query = $this->di->getMysql()->prepare("SELECT `${columnName}` FROM `Языки` ORDER BY `N` ASC");
-        var_dump($query->execute());
+        $query->execute();
         $langs = $query->fetchAll();
 
         return [
