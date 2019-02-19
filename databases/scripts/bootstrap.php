@@ -16,12 +16,6 @@ spl_autoload_register(function ($className) {
     }
 });
 
-define('COMPOSER_PATH', implode([ROOT_DIR, 'vendors', 'autoload.php'], DIRECTORY_SEPARATOR));
 define('MIGRATIONS_PATH', implode([ROOT_DIR, 'migrations'], DIRECTORY_SEPARATOR));
 define('TEMPLATES_PATH', implode([ROOT_DIR, 'templates'], DIRECTORY_SEPARATOR));
 
-if (!file_exists(COMPOSER_PATH)) {
-    throw new Exception('you need to run "composer install" command');
-}
-
-require COMPOSER_PATH;

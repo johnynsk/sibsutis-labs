@@ -8,16 +8,16 @@ class Init extends PageAbstract {
     public function invoke($payload, $arguments) {
         $result = [];
 
-        if (isset($payload["migrate_structure"])) {
+        if (isset($payload["structure"])) {
             $structure = file_get_contents(MIGRATIONS_PATH . "/create.sql");
             $this->di->getMysql()->exec($structure);
-            $result["migrate_structure"] = true;
+            $result["structure"] = true;
         }
 
-        if (isset($payload["migrate_data"])) {
+        if (isset($payload["data"])) {
             $data = file_get_contents(MIGRATIONS_PATH . "/data.sql");
             $this->di->getMysql()->exec($data);
-            $result["migrate_data"] = true;
+            $result["data"] = true;
         }
 
         if (count($result) == 0) {

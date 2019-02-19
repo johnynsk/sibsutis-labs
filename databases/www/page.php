@@ -25,10 +25,11 @@ call_user_func(function()
         $controller->register('#^/init/?$#', ['POST'], new Project\Page\Init($di));
         $controller->register('#^/type/?$#', ['GET'], new Project\Page\Types($di));
         $controller->register('#^/column/?#', ['GET'], new Project\Page\Column($di));
+        $controller->register('#^/company/?#', ['GET'], new Project\Page\Company($di));
         $controller->register('#^/language/?$#usi', ['GET'], new Project\Page\Languages($di));
-        $controller->register('#^/language/exclude_by_type/(?P<exclude_type>[^/]+)/?$#usi', ['GET'], new Project\Page\LanguagesExcludingType($di));
-        $controller->register('#^/language/familiar/(?P<company_name>[^/]+)/?$#usi', ['GET'], new Project\Page\Familiar($di));
-        $controller->register('#^/language/column/(?P<column_name>[^/]+)/?$#usi', ['GET'], new Project\Page\LanguagesColumn($di));
+        $controller->register('#^/language/exclude_by_type/(?P<exclude_type>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesExcludingType($di));
+        $controller->register('#^/language/familiar/(?P<company_name>[^/]+)/?$#u', ['GET'], new Project\Page\Familiar($di));
+        $controller->register('#^/language/column/(?P<column_name>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesColumn($di));
 
         ob_start();
         /** @var $invoker \Project\Page\PageAbstract */

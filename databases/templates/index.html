@@ -3,12 +3,12 @@
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>lusher</title>
-    <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
-    <script src="semantic/semantic.min.js"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
 
 </head>
 <body role="document">
@@ -19,7 +19,7 @@
     <p>
         <button class="ui labeled icon primary button" data-action="recreate"><i class="icon redo"></i>Recreate</button>
         <button class="ui labeled icon button green" data-action="fill"><i class="icon plus"></i>Fill table</button>
-        <button class="ui labeled icon button yellow" data-action="recreate-fill"><i class="icon plus"></i>Recreate and fill table</button>
+        <button class="ui labeled icon button yellow" data-action="recreate-fill"><i class="icon rocket"></i>Recreate and fill table</button>
     </p>
 
     <div class="ui message hidden">
@@ -33,52 +33,27 @@
     </div>
     <div class="ui bottom attached tab segment active" data-tab="all-records">
         <p>Here you can show all records in the table</p>
+        <p><button class="ui labeled icon primary button" data-action="reload-all"><i class="icon search"></i>Show all</button></p>
+        <div class="table-data"></div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="columns">
         <p>Here you can receive the data about available columns in the table</p>
+        <p><button class="ui labeled icon primary button" data-action="columns-refresh"><i class="icon redo"></i>Refresh</button></p>
+        <p class="buttons-data"></p>
+        <div class="table-data"></div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="excluding">
         <p>Here you can filter records in the table by the specific value</p>
+        <p class="buttons-data"></p>
+        <div class="table-data"></div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="companies">
         <p>Here you can receive all records familiar by the specified argument</p>
-    </div>
-
-    <div class="page hidden list-cells">
-        <table class="ui celled table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Job</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td data-label="Name">James</td>
-                <td data-label="Age">24</td>
-                <td data-label="Job">Engineer</td>
-            </tr>
-            <tr>
-                <td data-label="Name">Jill</td>
-                <td data-label="Age">26</td>
-                <td data-label="Job">Engineer</td>
-            </tr>
-            <tr>
-                <td data-label="Name">Elyse</td>
-                <td data-label="Age">24</td>
-                <td data-label="Job">Designer</td>
-            </tr>
-            </tbody>
-        </table>
+        <p class="buttons-data"></p>
+        <div class="table-data"></div>
     </div>
 </div>
 
-<div class="ui text container">
-    <div class="ui one column grid">
-        <div class="column"></div>
-    </div>
-</div>
 <script src="/page.js"></script>
 </body>
 </html>

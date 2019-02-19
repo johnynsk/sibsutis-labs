@@ -4,18 +4,18 @@ services:
         build: ./images/nginx/
         links:
             - fpm
-#        ports:
-#            - 8200:80
+        ports:
+            - 8200:80
         volumes:
-            - ./app/system/nginx/:/data/config/
-            - ./app:/data/project
+            - ./system/nginx/:/data/config/
+            - .:/data/project
 
     fpm:
         build: ./images/php/
         links:
             - mariadb
         volumes:
-            - ./app:/data/project
+            - .:/data/project
 
     mariadb:
         image: mariadb:latest

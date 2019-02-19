@@ -11,9 +11,8 @@ class Familiar extends PageAbstract {
             throw new UnspecifiedParameter("company_name");
         }
 
-
         $query = $this->di->getMysql()->prepare("SELECT * FROM `Языки` WHERE `Тип` IN (SELECT DISTINCT(`Тип`) FROM `Языки` WHERE `Фирма` = ?) ORDER BY `N` ASC");
-        $query->execute([$arguments['company_name']]);
+        $query->execute([urldecode($arguments['company_name'])]);
         $langs = $query->fetchAll();
 
         return [
