@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title>lusher</title>
+    <title>Databases course work</title>
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -27,29 +27,31 @@
 
     <div class="ui top attached tabular menu">
         <a class="item active" data-tab="all-records">All records</a>
-        <a class="item" data-tab="columns">Columns</a>
-        <a class="item" data-tab="excluding">Excluding</a>
-        <a class="item" data-tab="companies">Companies</a>
+        <a class="item" data-tab="columns">Select only one column</a>
+        <a class="item" data-tab="excluding">Excluding type</a>
+        <a class="item" data-tab="companies">Familiar companies</a>
     </div>
     <div class="ui bottom attached tab segment active" data-tab="all-records">
         <p>Here you can show all records in the table</p>
         <p><button class="ui labeled icon primary button" data-action="reload-all"><i class="icon search"></i>Show all</button></p>
         <div class="table-data"></div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="columns">
+    <div class="ui bottom attached tab segment form" data-tab="columns">
         <p>Here you can receive the data about available columns in the table</p>
         <p><button class="ui labeled icon primary button" data-action="columns-refresh"><i class="icon redo"></i>Refresh</button></p>
-        <p class="buttons-data"></p>
+        <div class="grouped fields buttons-data"></div>
+        <p class="button-placeholder"></p>
         <div class="table-data"></div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="excluding">
+    <div class="ui bottom attached tab segment form" data-tab="excluding">
         <p>Here you can filter records in the table by the specific value</p>
-        <p class="buttons-data"></p>
+        <div class="grouped fields buttons-data"></div>
+        <p class="button-placeholder"></p>
         <div class="table-data"></div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="companies">
+    <div class="ui bottom attached tab segment form" data-tab="companies">
         <p>Here you can receive all records familiar by the specified argument</p>
-        <p class="buttons-data"></p>
+        <div class="buttons-data"></div>
         <div class="table-data"></div>
     </div>
 </div>
