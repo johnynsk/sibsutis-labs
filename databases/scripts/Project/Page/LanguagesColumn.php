@@ -23,8 +23,12 @@ class LanguagesColumn extends PageAbstract {
         $query->execute();
         $langs = $query->fetchAll();
 
+        $query = $this->di->getMysql()->prepare("SELECT COUNT(*) AS `count` FROM `Языки`");
+        $query->execute();
+        $count = $query->fetch();
+
         return [
-            'count' => count($langs),
+            'count' => (int)$count["count"],
             'languages' => $langs
         ];
     }
