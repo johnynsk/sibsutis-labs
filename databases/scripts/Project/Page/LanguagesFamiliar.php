@@ -10,7 +10,7 @@ class LanguagesFamiliar extends PageAbstract {
             throw new UnspecifiedParameter("company_name");
         }
 
-        $query = $this->db->prepare("SELECT * FROM `Языки` WHERE `Тип` IN (SELECT DISTINCT(`Тип`) FROM `Языки` WHERE `Фирма` = ?) ORDER BY `N` ASC");
+        $query = $this->db->prepare("SELECT `Назв` FROM `Языки` WHERE `Тип` IN (SELECT DISTINCT(`Тип`) FROM `Языки` WHERE `Фирма` = ?) ORDER BY `N` ASC");
         $query->execute([urldecode($arguments['company_name'])]);
         $langs = $query->fetchAll();
 
