@@ -1,18 +1,18 @@
 <?php
 
 namespace Project\Page;
-use Project\Di;
+use Project\Database;
 
 abstract class PageAbstract {
     /**
-     * @var Di
+     * @var Database
      */
-    protected $di;
+    protected $db;
 
     private $headers = [];
 
-    public function __construct(Di $di) {
-        $this->di = $di;
+    public function __construct(Database $db) {
+        $this->db = $db;
     }
 
     abstract public function invoke($payload, $arguments);

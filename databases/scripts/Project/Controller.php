@@ -2,6 +2,7 @@
 
 namespace Project;
 
+use Project\Exception\UnknownUrl;
 use Project\Page\PageAbstract;
 
 class Controller {
@@ -9,7 +10,7 @@ class Controller {
     public function __construct() {
     }
 
-    public function register($regexp, $methods, Page\PageAbstract $controller) {
+    public function register($regexp, $methods, PageAbstract $controller) {
         array_push($this->controllers, [
             'regexp' => $regexp,
             'methods' => $methods,
@@ -20,8 +21,8 @@ class Controller {
     /**
      * @param $path
      * @param $method
-     * @return object
-     * @throws UnknownInvokerException
+     * @return [PageAbstract, string[]]
+     * @throws UnknownUrl
      */
     public function getInvokerAndArguments($path, $method)
     {
@@ -37,6 +38,6 @@ class Controller {
             return [$controller['invoker'], $matches];
         }
 
-        throw new UnknownInvokerException("You have specified the wrong URL. The handler does not exists.");
+        throw new UnknownUrl("You have specified the wrong URL. The handler does not exists.");
     }
 }

@@ -18,28 +18,25 @@ call_user_func(function()
             throw new Exception('env.REQUEST_URI was not set');
         }
 
-        $uri = $_ENV['REQUEST_URI'];
-
-        $di = new Project\Di();
-        $di->set('mysql', new Project\Database('mariadb', 'myuser', 'secret', 'mydb'));
+        $db = new Project\Database('mariadb', 'myuser', 'secret', 'mydb');
 
         $rawPayload = file_get_contents('php://input');
         $payload = json_decode($rawPayload, true);
 
         if (!empty($rawPayload) && json_last_error()) {
-            throw new Project\BadRequestException();
+            throw new Project\Exception\Client("Payload should be in the json format.");
         }
 
         $controller = new Project\Controller();
-        $controller->register('#^/$#', ['GET'], new Project\Page\Root($di));
-        $controller->register('#^/init/?$#', ['POST'], new Project\Page\Init($di));
-        $controller->register('#^/type/?$#', ['GET'], new Project\Page\Types($di));
-        $controller->register('#^/column/?#', ['GET'], new Project\Page\Column($di));
-        $controller->register('#^/company/?#', ['GET'], new Project\Page\Company($di));
-        $controller->register('#^/language/?$#usi', ['GET'], new Project\Page\Languages($di));
-        $controller->register('#^/language/exclude_by_type/(?P<exclude_type>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesExcludingType($di));
-        $controller->register('#^/language/familiar/(?P<company_name>[^/]+)/?$#u', ['GET'], new Project\Page\Familiar($di));
-        $controller->register('#^/language/column/(?P<column_name>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesColumn($di));
+        $controller->register('#^/$#', ['GET'], new Project\Page\Root($db));
+        $controller->register('#^/init/?$#', ['POST'], new Project\Page\Init($db));
+        $controller->register('#^/type/?$#', ['GET'], new Project\Page\Types($db));
+        $controller->register('#^/column/?#', ['GET'], new Project\Page\Column($db));
+        $controller->register('#^/company/?#', ['GET'], new Project\Page\Company($db));
+        $controller->register('#^/language/?$#usi', ['GET'], new Project\Page\Languages($db));
+        $controller->register('#^/language/exclude_by_type/(?P<exclude_type>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesExcludingType($db));
+        $controller->register('#^/language/familiar/(?P<company_name>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesFamiliar($db));
+        $controller->register('#^/language/column/(?P<column_name>[^/]+)/?$#u', ['GET'], new Project\Page\LanguagesColumn($db));
 
         ob_start();
         /** @var $invoker \Project\Page\PageAbstract */
@@ -58,10 +55,10 @@ call_user_func(function()
 
         $contents = ob_get_clean();
         echo $contents;
-    } catch (\Project\UnknownInvokerException $exception) {
+    } catch (\Project\Exception\UnknownUrl $exception) {
         header("HTTP/1.0 404 Not Found");
         $handler($exception);
-    } catch (\Project\ClientException $exception) {
+    } catch (\Project\Exception\Client $exception) {
         header("HTTP/1.0 400 Bad Request");
         $handler($exception);
     } catch (Exception $exception) {
