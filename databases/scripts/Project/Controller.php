@@ -37,6 +37,6 @@ class Controller {
             return [$controller['invoker'], $matches];
         }
 
-        throw new UnknownInvokerException(); 
+        throw new UnknownInvokerException("You have specified the wrong URL. The handler does not exists.");
     }
 }

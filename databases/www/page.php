@@ -3,6 +3,16 @@
 call_user_func(function()
 {
     require_once dirname(__DIR__) . '/scripts/bootstrap.php';
+    $handler = function (Exception $exception) {
+        echo json_encode([
+            'error' => [
+                'message' => $exception->getMessage(),
+                'trace' => $exception->getTrace(),
+                'class' => get_class($exception),
+            ]
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    };
+
     try {
         if (!isset($_ENV['REQUEST_URI'])) {
             throw new Exception('env.REQUEST_URI was not set');
@@ -50,13 +60,13 @@ call_user_func(function()
         echo $contents;
     } catch (\Project\UnknownInvokerException $exception) {
         header("HTTP/1.0 404 Not Found");
-        print_r($exception);
+        $handler($exception);
     } catch (\Project\ClientException $exception) {
         header("HTTP/1.0 400 Bad Request");
-        print_r($exception);
+        $handler($exception);
     } catch (Exception $exception) {
         header("HTTP/1.0 500 Internal Server Error");
-        print_r($exception);
+        $handler($exception);
     }
 });
 
