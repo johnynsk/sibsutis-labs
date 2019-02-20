@@ -9,13 +9,18 @@
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="semantic/dist/semantic.min.js"></script>
+    <style type="text/css">
+        .ui.checkbox label {
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 <body role="document">
 
 <div class="ui text container">
-    <h3 class="first">Coursework demonstration</h3>
-    <p></p>
+    <h2 class="first">Coursework demonstration</h2>
+    <p>Repository url: <a href="https://github.com/johnynsk/sibsutis-labs/"><i class="icon github"></i>johnynsk / <b>sibsutis-labs</b></a></p>
     <p>
         <button class="ui labeled icon primary button" data-action="recreate"><i class="icon redo"></i>Recreate</button>
         <button class="ui labeled icon button green" data-action="fill"><i class="icon plus"></i>Fill table</button>
@@ -41,17 +46,21 @@
         <p><button class="ui labeled icon primary button" data-action="columns-refresh"><i class="icon redo"></i>Refresh</button></p>
         <div class="grouped fields buttons-data"></div>
         <p class="button-placeholder"></p>
+        <h3 class="ui header counter"></h3>
         <div class="table-data"></div>
     </div>
     <div class="ui bottom attached tab segment form" data-tab="excluding">
         <p>Here you can filter records in the table by the specific value</p>
         <div class="grouped fields buttons-data"></div>
         <p class="button-placeholder"></p>
+        <h3 class="ui header counter"></h3>
         <div class="table-data"></div>
     </div>
     <div class="ui bottom attached tab segment form" data-tab="companies">
         <p>Here you can receive all records familiar by the specified argument</p>
-        <div class="buttons-data"></div>
+        <div class="grouped fields buttons-data"></div>
+        <p class="button-placeholder"></p>
+        <h3 class="ui header counter"></h3>
         <div class="table-data"></div>
     </div>
 </div>

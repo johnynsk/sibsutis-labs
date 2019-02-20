@@ -47,7 +47,7 @@ HTML-форма: флажки-переключатели.
         cd sibsutis-labs/databases
 3. Установить необходимые проекту пакеты npm:
 
-        cd app && npm install
+        npm install
 4. Запустить для инициализации серверов:
 
         docker-compose up -d
