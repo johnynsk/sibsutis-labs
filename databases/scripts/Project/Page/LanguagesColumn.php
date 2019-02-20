@@ -2,8 +2,8 @@
 
 namespace Project\Page;
 
-use Project\BadRequestException;
-use Project\UnspecifiedParameter;
+use Project\Exception\BadRequest;
+use Project\Exception\UnspecifiedParameter;
 
 class LanguagesColumn extends PageAbstract {
     public function invoke($payload, $arguments) {
@@ -11,19 +11,19 @@ class LanguagesColumn extends PageAbstract {
             throw new UnspecifiedParameter("column_name");
         }
 
-        $columns = (new Column($this->di))->invoke(null, null);
+        $columns = (new Column($this->db))->invoke(null, null);
         $columnName = urldecode($arguments["column_name"]);
 
         if (!in_array($columnName, $columns["columns"])) {
-            throw new BadRequestException("You have specified the wrong column name.");
+            throw new BadRequest("You have specified the wrong column name.");
         }
 
 
-        $query = $this->di->getMysql()->prepare("SELECT `${columnName}` FROM `Языки` ORDER BY `N` ASC");
+        $query = $this->db->prepare("SELECT `${columnName}` FROM `Языки` ORDER BY `N` ASC");
         $query->execute();
         $langs = $query->fetchAll();
 
-        $query = $this->di->getMysql()->prepare("SELECT COUNT(*) AS `count` FROM `Языки`");
+        $query = $this->db->prepare("SELECT COUNT(*) AS `count` FROM `Языки`");
         $query->execute();
         $count = $query->fetch();
 

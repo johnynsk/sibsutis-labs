@@ -1,8 +1,8 @@
 <?php
 
-namespace Project;
+namespace Project\Exception;
 
-class UnspecifiedParameter extends ClientException
+class UnspecifiedParameter extends Client
 {
     public function __construct($parameterName)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Project\Page;
+namespace Project\Exception;
 
 class Exception extends \Exception
 {
