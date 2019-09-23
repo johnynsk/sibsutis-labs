@@ -1,0 +1,62 @@
+[
+  {
+    "source": {
+      "state": "q",
+      "symbol": "*",
+      "stack": "E"
+    },
+    "target": {
+      "state": "q",
+      "stack": "EE*",
+      "result": "~"
+    }
+  },
+  {
+    "source": {
+      "state": "q",
+      "symbol": "~",
+      "stack": "+"
+    },
+    "target": {
+      "state": "q",
+      "stack": "~",
+      "result": "+"
+    }
+  },
+  {
+    "source": {
+      "state": "q",
+      "symbol": "a",
+      "stack": "E"
+    },
+    "target": {
+      "state": "q",
+      "stack": "~",
+      "result": "a"
+    }
+  },
+  {
+    "source": {
+      "state": "q",
+      "symbol": "+",
+      "stack": "E"
+    },
+    "target": {
+      "state": "q",
+      "stack": "EE+",
+      "result": "~"
+    }
+  },
+  {
+    "source": {
+      "state": "q",
+      "symbol": "~",
+      "stack": "*"
+    },
+    "target": {
+      "state": "q",
+      "stack": "~",
+      "result": "*"
+    }
+  }
+]
