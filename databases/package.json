@@ -9,6 +9,6 @@
   "author": "Evgeniy Vasilev http://evgeniyvasilev.ru",
   "license": "MIT",
   "dependencies": {
-    "semantic-ui": "^2.4.2"
+    "semantic-ui": "^2.5.0"
   }
 }
