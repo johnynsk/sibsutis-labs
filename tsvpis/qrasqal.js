@@ -26,12 +26,14 @@ let qrasqal = (source) => {
     let result = [];
     let broken = [];
     let links = [];
+    let graph = [];
 
     for (let costId in costs)  {
         if (links[0] && links[0].length == source.length) {
             console.log('done');
-            return result;
+            return {'components': links, 'subgraph': graph};
         }
+
         let cost = costs[costId];
         let group = null;
         if (links.filter(item => item.indexOf(cost.A) >= 0 && item.indexOf(cost.B) >= 0).length) {
@@ -42,8 +44,10 @@ let qrasqal = (source) => {
         let existsA = links.filter(item => item.indexOf(cost.A) >= 0);
         let existsB = links.filter(item => item.indexOf(cost.B) >= 0);
         if (existsA.length && existsB.length) {
-            links = links.filter(item => item.indexOf(cost.A) == -1 || item.indexOf(cost.B) == -1)
-            links.push(existsA.concat(existsB));
+            let newItem = existsB[0].concat(existsA[0]);
+            newItem.sort();
+            links.push(newItem);
+            links = links.filter((item, index) => existsA.indexOf(item) == -1 && existsB.indexOf(item) == -1);
         } else if (existsA.length || existsB.length) {
             let exists = [existsA, existsB].filter(item => item.length);
             links = links.map(item => {
@@ -59,9 +63,10 @@ let qrasqal = (source) => {
             links.push([cost.A, cost.B]);
         }
         console.log('applied', cost, links);
+        graph.push({A: cost.A, B: cost.B, cost: cost.cost});
     }
-    
-    return result;
+
+    return {'components': links, 'subgraph': graph};
 }
 
 module.exports = qrasqal;
