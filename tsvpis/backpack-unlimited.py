@@ -14,11 +14,11 @@ for i in range(0, weight + 1):
         if (i - mass[j] >= 0):
             M.append(resA[i - mass[j]] + costs[j]);
             S.append(i - mass[j]);
-    if len(M) == 0:
-        resA.append(0);
-        resB.append(0);
-        resC.append(0);
-        continue
+    # if len(M) == 0:
+    #     resA.append(0);
+    #     resB.append(0);
+    #     resC.append(0);
+    #     continue
 
     resA.append(max(M));
     resB.append(M.index(max(M)));

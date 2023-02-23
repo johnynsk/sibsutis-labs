@@ -1,64 +1,36 @@
-#include <iostream>
-#include <stdexcept>
-#include <vector>
+#include <fstream>
 
-int n, m;
-std::vector<std::vector<int64_t>> map;
-
-
-int64_t calc(const int n, const int m) {
-    std::vector<std::vector<int64_t>> F;
-    for (int i = 0; i < n + 3; i++) {
-        F.push_back(std::vector<int64_t>(m + 3, 0));
-    }
-
-    F[2][2] = 1;
-    int startI = 2, startJ = 2;
-    while ((startI < n + 1) || (startJ < m + 1)) {
-        if (startJ == m + 1) {
-            startI++;
-        } else {
-            startJ++;
-        }
-
-        int i = startI, j = startJ;
-
-        while ((i <= n + 1) && j > 2) {
-            F[i][j] = F[i + 1][j - 2] + F[i - 1][j - 2] + F[i - 2][j + 1] + F[i - 2][j - 2];
-            i++;
-            j--;
-        }
-    }
-
-    return F[n + 1][m + 1];
-}
-
-int64_t calc2(int i, int j) {
-    if (i >= 0 && j >= 0 && i < n && j < m) {
-        if (map[i][j] == -1) {
-            map[i][j] = calc(i - 2, j - 1) + calc(i - 2, j + 1) + calc(i - 1, j - 2) + calc(i - 1, j + 2);
-        }
-    } else {
-        return 0;
-    }
-    return map[i][j];
-}
+using namespace std;
 
 int main() {
-    std::cin >> n >> m;
+    int n, m;
     
-    if ((n < 1 || n > 50) || (m < 1 || m > 50)) {
-        throw std::invalid_argument("N and M should be in range [1; 50]");
-    }
+    fstream file("knight.in", file.in);
+    file >> n >> m;
+    file.close();
 
-/*
+    int f[n][m];
+
     for (int i = 0; i < n; i++) {
-        map.push_back(std::vector<int64_t>(m, -1));
+        for (int j = 0; j < m; j++) {
+            f[i][j] = 0;
+        }
     }
-    map[0][0] = 1;
-*/
 
-    int64_t paths = calc(n, m);
-    // int64_t paths = calc(n - 1, m - 1);
-    std::cout << paths << '\n';
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (i == 0 && j == 0) {
+                f[i][j] = 1;
+            } else {
+                f[i][j] += (i - 2 >= 0 && j - 1 >= 0) ? f[i - 2][j - 1] : 0;
+                f[i][j] += (i - 1 >= 0 && j - 2 >= 0) ? f[i - 1][j - 2] : 0;
+            }
+        }
+    }
+
+    file.open("knight.out", file.out);
+    file << f[n - 1][m - 1] << endl;
+    file.close();
+
+    return 0;
 }
