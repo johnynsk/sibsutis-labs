@@ -1,10 +1,16 @@
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
-
+#include <fstream>
 int main() {
+
+    std::fstream file;
+    file.open("ladder.in", file.in);
+    if (!file.is_open()) {
+        return 1;
+    }
     int n;
-    std::cin >> n;
+    file >> n;
     
     int s1 = 0; // best sum N-1 step
     int s2 = 0; // best sum N-2 step
@@ -17,7 +23,7 @@ int main() {
 
     for (int i = 0; i < n; ++i) {
         int c; // value on N step
-        std::cin >> c;
+        file >> c;
         
         if (c < -10000 || c > 10000) {
             throw std::invalid_argument("The value is out of range! [-10000; 10000]");
@@ -33,5 +39,9 @@ int main() {
         c1 = c;
     }
 
-    std::cout << s1 << '\n';
+    file.close();
+    file.open("ladder.out", std::ios::out);
+    file << s1 << std::endl;
+    file.close();
+    return 0;
 }

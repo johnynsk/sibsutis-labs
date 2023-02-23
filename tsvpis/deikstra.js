@@ -7,7 +7,6 @@ let Stats = require('./stats')
 
 let deikstra = (source, from) => {
     source = _.clone(source)
-    let stats = new Stats();
     if (typeof from == "undefined") {
         from = 0;
     }
@@ -16,40 +15,66 @@ let deikstra = (source, from) => {
     _.times(source.length, index => result[index] = new Vertex(index));
     result[from] = new Vertex(from, 0);
 
-    let currentVertex = result[from];
-    do {
-        let verticesSortedByCost = source[currentVertex.getNumber()]
-            .map((value, index) => {
-                return {
-                    number: index,
-                    cost: value
-                }
-            })
-            .sort((a, b) => a.cost - b.cost)
-            .filter(item => item.number != currentVertex.getNumber() && item.number != from && item.cost != Infinity)
-            .map(item => {
-                let vertex = result[item.number];
-                if (vertex.getCost() > currentVertex.getCost() + item.cost) {
-                    vertex.setCost(currentVertex.getCost() + item.cost)
-                        .setPath(_.clone(currentVertex.getPath()).concat([currentVertex]));
-                }
-                return result[item.number]
-            })
-            .forEach(item => console.log(["from", currentVertex.getNumber(), "to", item.getNumber(), item.getCost()]));
+    let dist = [];
+    let prev = [];
+    let used = [];
+    _.times(source.length, index => {
+        dist[index] = Infinity
+        prev[index] = -1;
+        used[index] = false;
+    });
+    dist[from] = 0;
 
-        currentVertex.setVisited(true);
+    let min_dist = 0;
+    let min_vertex = from;
+    while (min_dist < Infinity) {
+        let i = min_vertex;
+        used[i] = true;
 
-        let leastVertices = result
-            .filter(item => !item.isVisited() && item.getPath().length > 0);
+        for (let j in source[i]) {
+            j = parseInt(j);
+            let wt = source[i][j];
 
-        if (leastVertices.length == 0) {
-            break;
+            if (dist[i] + wt < dist[j]) {
+                dist[j] = dist[i] + wt;
+                prev[j] = i;
+            }
         }
 
-        currentVertex = leastVertices[0];
-    } while(result.filter(item => !item.isVisited()).length > 0)
+        min_dist = Infinity;
+        
+        for (let j in source[i]) {
+            j = parseInt(j);
+            if (!used[j] && dist[j] < min_dist) {
+                min_dist = dist[j];
+                min_vertex = j;
+            }
+        }
 
-    return new Result(result, stats)
+        console.log('S = ', 
+            used.map((item, index) => item ? index : null).filter(item => item != null),
+            '  \tw = ', i,
+            '  \tD(w) = ', dist[i],
+            '  \tD = ', dist);
+    }
+
+    let restore = (prev, id) => {
+        let path = [];
+
+        while (id != -1) {
+            path.push(id);
+            id = prev[id];
+        }
+        
+        return path;
+    }
+
+    let nodes = [];
+    for (let j = 0; j < source.length; j++) {
+        nodes.push({id: j, cost: dist[j], path: restore(prev, j).reverse()});
+    }
+
+    return nodes;
 }
 
 module.exports = deikstra;
